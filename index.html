@@ -1,22 +1,51 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Final Project</title>
-
 <!-- Include links to CSS stylesheets below -->
 <link rel = "stylesheet" href = "node_modules/bulma/css/bulma.css"/>
 </head>
 
 <body>
-<div id="root"></div>
+    <!-- Header for website, title & searchbar; Study Spot Yelp is a placeholder name we can make a better one later-->
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <h1 class="title">
+                Study Spot Yelp
+            </h1>
+            <h2 class="subtitle" >Find the study spot for you!</h2>
+            <input type="text" placeholder="Search..">
+            <button type="submit">&#128269</button></i></button> <!-- Unicode is for magnifying glass-->
+        </div>
+    </section>
 
-<!-- Include links to JavaScript files below -->
-<script src="node_modules/jquery/dist/jquery.js"></script>
-<script src="data.js"></script>
-<script src="render.js" type="module"></script>
+    <!--Map of UNC, we can probably find/make a better one & then make it interactive so you can just scroll over the place
+    you want to check out. But for now we can just put a picture-->
+    <section class="section">
+        <div class="container">
+            <h1 class="title" style="text-align: center;"> Find a Study Spot </h1>
+            <h1 style="text-align: center"><img src="https://lh3.googleusercontent.com/proxy/mToBfgagK39veVqIkO7IyFJkAfyKh1hHI-k4TP978OgSJhhm-5xJ06OqgdIHW-GTA8IfCf-F8bnLoiBd6O6btu7thUnNMzAVFlqKuCwEllG3h2np-rNQ"
+                alt="map"></h1>
+        </div>
+    </section>
+    
+    <!-- Include links to JavaScript files below -->
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="data.js"></script>
+    <script src="render.js" type="module"></script>
 </body>
+
+    <!-- Footer, I just put some place holder stuff there, we can put actual content here later or get rid of it later-->
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Study Spot Yelp</strong> by Lauren Hawkins, Lara Kirby, Angel Patel, & Ashley Wortham for COMP 426 Fall 2020
+          </p>
+        </div>
+      </footer>
+<div id="root"></div>
 </html>
