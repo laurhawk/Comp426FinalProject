@@ -1,0 +1,127 @@
+<!-- delete later, life with studyspot.html we can probably just add this to a .js file or something -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Form|Study Spot Yelp</title>
+<!-- Include links to CSS stylesheets below -->
+<link rel = "stylesheet" href = "node_modules/bulma/css/bulma.css"/>
+</head>
+
+<body>
+    <!-- Header for website, title & searchbar-->
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <h1 class="title">
+                Study Spot Yelp
+            </h1>
+            <h2 class="subtitle" >Find the study spot for you!</h2>
+            <input type="text" placeholder="Search..">
+            <button type="submit">&#128269</button> <!-- Unicode is for magnifying glass-->
+        </div>
+    </section>
+
+    <!-- Form information-->
+    <section>
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <h1 class="title">Davis Library</h1>
+                      
+                      <div class="field">
+                        <label class="label">Location</label>
+                        <div class="control">
+                          <div class="select">
+                            <select>
+                              <option>Select dropdown</option>
+                              <option>With options</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!--got lazy here, add like an actual time select thing later-->
+                      <div class="field">
+                          <label class="label">Time:</label>
+                          <div class="control">
+                              <div class="input"></div>
+                          </div>
+                      </div>
+
+                      <!--Didn't add anything here yet just for show right now-->
+                      <div class="field">
+                          <label class="label">Rating: &#9734; &#9734; &#9734; &#9734; &#9734;</label>
+                      </div>
+
+                      <div class="field">
+                          <label class="label">Would Study Again?:</label>
+                          <div class="control">
+                            <label class="radio">
+                              <input type="radio" name="question">
+                              Yes
+                            </label>
+                            <label class="radio">
+                              <input type="radio" name="question">
+                              No
+                            </label>
+                          </div>
+                      </div>
+
+                      <div class="field">
+                        <label class="label">Additional Tags</label>
+                        <div class="control">
+                          <label class="checkbox">
+                            <input type="checkbox">
+                            Loud
+                          </label>
+
+                          <label class="checkbox">
+                            <input type="checkbox">
+                            Quiet
+                          </label>
+
+                          <label class="checkbox">
+                            <input type="checkbox">
+                            Busy
+                          </label>
+
+                          <label class="checkbox">
+                            <input type="checkbox">
+                            Good for Group Work
+                          </label>
+
+                        </div>
+                      </div>
+
+                      <div class="field">
+                        <div class="control">
+                          <textarea class="textarea" placeholder="Textarea"></textarea>
+                        </div>
+                      </div>
+                      
+                      <div class="field is-grouped">
+                        <div class="control">
+                          <button class="button is-link">Submit</button>
+                        </div>
+                        <div class="control">
+                          <button class="button is-link is-light">Cancel</button>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+    <!-- Footer, I just put some place holder stuff there, we can put actual content here later or get rid of it later-->
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Study Spot Yelp</strong> by Lauren Hawkins, Lara Kirby, Angel Patel, & Ashley Wortham for COMP 426 Fall 2020
+          </p>
+        </div>
+      </footer>
+<div id="root"></div>
+</html>
