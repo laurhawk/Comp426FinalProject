@@ -9,7 +9,7 @@ export const renderMainPage = function(){
                     <section class="section">
                         <div class="container">
                             <h2 class="title" style="text-align: left;"> Find a Study Spot </h1>
-                            <h2 style="text-align: left"><img src="https://www.google.com/maps/d/thumbnail?mid=1ECA2UWDNhkBLXPrSRbD7PMLRXhM&hl=en" alt="map"></h1>
+                            <h2  style="text-align: left"><img src="https://www.google.com/maps/d/thumbnail?mid=1ECA2UWDNhkBLXPrSRbD7PMLRXhM&hl=en" alt="map"></h1>
                         </div>
                         <div> 
                         </div>
@@ -28,7 +28,35 @@ export const renderMainPage = function(){
 
 $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
+$(document).on("click", ".login", renderLoginForm);
 
+}
+
+export const renderLoginForm = function(){
+  const $root = $('#root');
+  let form_html = `
+  <form class = "login">
+  
+  <button class = "button newlogin" >Create account</button>
+  <div class = "field">
+    <label class = "label">User</label>
+      <div class = "control has-icons-left has-icons-right">
+      <input class = "input " type = "text" placeholder = "enter username">
+      </input>
+      </div> 
+  </div>
+    <label class = "label">Password</label>
+    <div class = "field">
+    <div class = "control has-icons-left has-icons-right">
+    <input class = "input" type = "text" placeholder = "enter password">
+    </input>
+    </div>
+    </div>
+    <button class = "button is-primary submitlogin" >Submit</button> 
+  </form>
+  `;
+  $root.html(form_html);
+  
 }
 
 //make this into an actual form
