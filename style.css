@@ -8,3 +8,11 @@ h3{
 textarea{
     border: 10px solid #7BAFD4;
 }
+.label{
+    color: black;
+}
+.newlogin{
+    justify-content: left;
+    text-align: left;
+    align-content: left;
+}

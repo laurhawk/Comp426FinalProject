@@ -16,7 +16,7 @@ export const renderMainPage = function(){
                     </section>
                     <section class="section">
                         <div class="container" justify-content= "center" align-content= "center" text-align="center" >
-                            <button class="button submit review" style="background-color: #7BAFD4"> Submit a Review </button>
+                            <button class="button is-primary submit review" style="background-color: #7BAFD4"> Submit a Review </button>
                         </div>
                     <section>
                     </div>
@@ -34,34 +34,78 @@ $(document).on("click", ".login", renderLoginForm);
 
 export const renderLoginForm = function(){
   const $root = $('#root');
-  let form_html = `
-  <form class = "login">
-  
-  <button class = "button newlogin" >Create account</button>
-  <div class = "field">
-    <label class = "label">User</label>
-      <div class = "control has-icons-left has-icons-right">
-      <input class = "input " type = "text" placeholder = "enter username">
-      </input>
-      </div> 
-  </div>
-    <label class = "label">Password</label>
-    <div class = "field">
-    <div class = "control has-icons-left has-icons-right">
-    <input class = "input" type = "text" placeholder = "enter password">
-    </input>
-    </div>
-    </div>
-    <button class = "button is-primary submitlogin" >Submit</button> 
-  </form>
+  let form_html = `<form class = "login">
+                    <div class= "section container columns">
+                    <div class="column">
+                    <div class = "field">
+                        <label class = "label">Username</label>
+                            <div class = "control has-icons-left has-icons-right">
+                            <input class = "input is-right " type = "text" placeholder = "Username">
+                            </input>
+                            </div> 
+                    </div>`
+        form_html += `<label class = "label">Password</label>
+                        <div class = "field">
+                        <div class = "control has-icons-left has-icons-right">
+                            <input class = "input" type = "text" placeholder = "Password"></input>
+                        </div>
+                        </div>
+                            <br>
+                            <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
+                        </div>
+                        <div class = "column">
+                            <br>
+                            <button class = "button is-primary newlogin" style="background-color: #7BAFD4">Create New Account</button>
+                        </div>
+                    </div></form>
   `;
   $root.html(form_html);
+  $(document).on("click", ".login", renderCreateNewUser);
   
 }
 
-//make this into an actual form
+export const renderCreateNewUser = function(){
+    const $root = $('#root');
+    let newUser = `<form class="createUser">
+                    <div class="section">
+                    
+                    <div class= "field">
+                        <label class = "label">First Name</label>
+                        <input class = "input" type = "text" placeholder = "First Name"></input>
+                    </div>
+                    <div class= "field">
+                        <label class = "label">Last Name</label>
+                        <input class = "input" type = "text" placeholder = "Last Name"></input>
+                    </div>
+                    <div class= "field">
+                        <label class = "label">Email</label>
+                        <input class = "input" type = "email" placeholder = "Email"></input>
+                    </div>
+                    <div class= "field">
+                        <label class = "label">Enter Username</label>
+                        <input class = "input" type = "text" placeholder = "Username"></input>
+                    </div>
+                    <div class= "field">
+                        <label class = "label">Enter Password</label>
+                        <input class = "input" type = "text" placeholder = "Password"></input>
+                    </div>
+                    <br>
+                    <button class="button is-primary submit create" style="background-color: #7BAFD4"> Create Account </button>
+                    </div>
+                    </form>`
 
 
+    $root.html(newUser)
+    $(document).on("click", ".create", submitUserToDb);
+}
+
+export const submitUserToDb = function(){
+    return; 
+    /*
+    Upon submission of create new user form, this function should append the information given by the user
+    in the above function to the user login database (and check if the username is available etc)
+    */
+}
 export const renderReviewForm = function(){
 //replace X with Y function to replace main page with review form
 //create form 
