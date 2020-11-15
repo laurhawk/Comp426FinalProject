@@ -1,12 +1,25 @@
+//spots is a spot object from render.js
 export const renderMainPage = function(){
     const $root = $('#root');
+
     let mainPage = `<section class="section">
                         <div class="container">
-                            <h1 class="title" style="text-align: center;"> Find a Study Spot </h1>
-                            <h1 style="text-align: center"><img src="https://www.google.com/maps/d/thumbnail?mid=1ECA2UWDNhkBLXPrSRbD7PMLRXhM&hl=en" alt="map"></h1>
+                            <h2 class="title" style="text-align: left;"> Find a Study Spot </h1>
+                            <h2 style="text-align: left"><img src="https://www.google.com/maps/d/thumbnail?mid=1ECA2UWDNhkBLXPrSRbD7PMLRXhM&hl=en" alt="map"></h1>
+                        </div>
+                        <div> 
                         </div>
                     </section>
-`;
+                    <section class="section">
+                        <div class="container">
+                            <button class="button submit review" style="background-color: #7BAFD4"> Submit a Review </button>
+                        </div>
+                    <section>`
+
+    // Pick a spot from the list at random
+    //var randomSpot = spots[Math.floor(Math.random() * spots.length)];
+    //mainPage += randomSpot;
+
 $root.append(mainPage);
 }
 
@@ -25,7 +38,7 @@ export const renderReviewForm = function(){
                                                 <select>
                                                 <option>Select dropdown</option>
                                                 <option>With options</option>
-                                                 </select>
+                                                </select>
                                             </div>
                                     </div>
                             </div>
@@ -88,7 +101,7 @@ export const renderReviewForm = function(){
  $root.append(reviewForm)
 }
 
-export const studySpot = function(){
+export const renderRandomStudySpot = function(){
     let studySpot = `<div class="tile is-ancestor">
     <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -120,7 +133,7 @@ export const studySpot = function(){
                 <div class="media-content">
                   <div class="content">
                     <h1 class="title">
-                      &#9733; &#9733; &#9733; &#9734; &#9734; <br>First Floor 10/11/20 1:00PM-1:00AM
+                      &#9733; &#9733; &#9733; &git#9734; &#9734; <br>First Floor 10/11/20 1:00PM-1:00AM
                     </h1>
 
                     <h3><b>Would Study Again?:</b> Yes</h3>
@@ -142,6 +155,11 @@ export const studySpot = function(){
 $(function(){ 
     const $root = $('#root')
     renderMainPage();
-    renderReviewForm()
+    renderRandomStudySpot()
+
+    //renderReviewForm()
+
+    $root.on("click", ".review", renderReviewForm)
+    
 
 })
