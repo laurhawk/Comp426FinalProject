@@ -13,6 +13,7 @@ export const renderMainPage = function(){
                     <section class="section">
                         <div class="container">
                             <button class="button submit review" style="background-color: #7BAFD4"> Submit a Review </button>
+                            <button class="button submit create" style="background-color: #7BAFD4"> Add New Spot </button>
                         </div>
                     <section>`
 
@@ -152,6 +153,13 @@ export const renderRandomStudySpot = function(){
     $root.append(studySpot)
 }
 
+export const addNewSpot = function(){
+
+    let newForm = ``
+
+    $root.append(newForm)
+}
+
 $(function(){ 
     const $root = $('#root')
     renderMainPage();
@@ -160,6 +168,7 @@ $(function(){
     //renderReviewForm()
 
     $root.on("click", ".review", renderReviewForm)
+    $root.on("click", ".create", addNewSpot)
     
 
 })
