@@ -5,3 +5,6 @@ h3{
     color: black; 
     font-size: 25px ;
 }
+textarea{
+    border: 10px solid #7BAFD4;
+}

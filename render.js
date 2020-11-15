@@ -1,9 +1,12 @@
+
 //spots is a spot object from render.js
 //import data from "data.js"
 export const renderMainPage = function(){
     const $root = $('#root');
 
-    let mainPage = `<section class="section">
+    let mainPage = `<div class="columns">
+                    <div class="column">
+                    <section class="section">
                         <div class="container">
                             <h2 class="title" style="text-align: left;"> Find a Study Spot </h1>
                             <h2 style="text-align: left"><img src="https://www.google.com/maps/d/thumbnail?mid=1ECA2UWDNhkBLXPrSRbD7PMLRXhM&hl=en" alt="map"></h1>
@@ -15,7 +18,9 @@ export const renderMainPage = function(){
                         <div class="container" justify-content= "center" align-content= "center" text-align="center" >
                             <button class="button submit review" style="background-color: #7BAFD4"> Submit a Review </button>
                         </div>
-                    <section>`;
+                    <section>
+                    </div>
+                    </div>`;
 
     // Pick a spot from the list at random
     //var randomSpot = spots[Math.floor(Math.random() * spots.length)];
@@ -38,34 +43,71 @@ export const renderReviewForm = function(){
 
 //need to check if already in database
 //want to autofill location name
-  let reviewForm = `<container> <form>
-  <h3>Enter location name:</h3> 
-  <textarea type = "text" id = "placeholder"></textarea> <br> <br> 
+const $root = $('#root');
+  let reviewForm = `<div class="container"> 
+                        <form>
+                            <h3>Enter location name:</h3> 
+                                <textarea class = "textarea" type = "text" placeholder="Davis Library" id = "placeholder"></textarea> 
+                                <br> 
   `;
-  const $root = $('#root');
+  
   // data.forEach(location => {
   //   reviewForm += `<option value = ${location.id}>${location.name}</option>`;
   // });
+
+//boolean would study
  reviewForm += `
- <h3>Would you study here again? </h3>
- <select name = "Would Study Here Again?">
-     <option value = "true">Yes</option>
-     <option value = "false">No</option>
- </select> <br> <br> 
- <h3> Select rating out of five:</h3> 
- <select name = "Rating">
-     <option value = "1">&#x2605</option>
-     <option value = "2">&#x2605 &#x2605</option>
-     <option value = "3">&#x2605 &#x2605 &#x2605</option>
-     <option value = "4">&#x2605 &#x2605 &#x2605 &#x2605</option>
-     <option value = "5">&#x2605 &#x2605 &#x2605 &#x2605 &#x2605</option>
- </select> <br> <br> 
- <h3>Any other comments? </h3> 
- <textarea type = "text" class = "comments" id = "comments"></textarea> <br> <br> 
-<button class="button submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> <br> 
-</form> </container>
+ <div class="field">
+    <div class="control">
+        <h3>Would you study here again? </h3>
+            <div class="select is-rounded">
+                <select name = "Would Study Here Again?">
+                    <option value = "true">Yes</option>
+                    <option value = "false">No</option>
+                </select> 
+            </div>
+    </div>
+ </div><br> `
+
+ //drop down rating
+ reviewForm += `<div class="field">
+                    <div class="control">
+                        <h3> Select rating out of five:</h3> 
+                            <div class="select is-rounded">
+                                <select name = "Rating">
+                                    <option value = "1">&#x2605</option>
+                                    <option value = "2">&#x2605 &#x2605</option>
+                                    <option value = "3">&#x2605 &#x2605 &#x2605</option>
+                                    <option value = "4">&#x2605 &#x2605 &#x2605 &#x2605</option>
+                                    <option value = "5">&#x2605 &#x2605 &#x2605 &#x2605 &#x2605</option>
+                                </select> 
+                            </div>
+                    </div>
+                </div><br> `
+ 
+ //other comments
+ reviewForm+=`<h3>Any other comments? </h3> 
+ <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Too crowded"></textarea> <br> <br> 
+<button class="button submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
+</form> </div>
 `;
- $root.html(reviewForm);
+$root.html(reviewForm);
+
+//Figure out how to convert user input into something to put into database
+/*
+var userInput = $('form').serializeArray()
+
+var name = userInput[0]
+var wouldStudy = userInput[1]
+var rating = userInput[2]
+var comments = userInput[3]
+
+//generate a random id greater than 12
+let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
+study_data.set(s1.id.toString(), s1);
+*/
+
+ 
 }
 
 export const addInfoToDb = function(){
