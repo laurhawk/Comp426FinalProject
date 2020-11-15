@@ -1,4 +1,5 @@
 //spots is a spot object from render.js
+//import data from "data.js"
 export const renderMainPage = function(){
     const $root = $('#root');
 
@@ -11,95 +12,64 @@ export const renderMainPage = function(){
                         </div>
                     </section>
                     <section class="section">
-                        <div class="container">
+                        <div class="container" justify-content= "center" align-content= "center" text-align="center" >
                             <button class="button submit review" style="background-color: #7BAFD4"> Submit a Review </button>
-                            <button class="button submit create" style="background-color: #7BAFD4"> Add New Spot </button>
                         </div>
-                    <section>`
+                    <section>`;
 
     // Pick a spot from the list at random
     //var randomSpot = spots[Math.floor(Math.random() * spots.length)];
     //mainPage += randomSpot;
 
 $root.append(mainPage);
+$root.on("click", ".review", renderReviewForm);
+
 }
 
 //make this into an actual form
+
+
 export const renderReviewForm = function(){
- let reviewForm = `<section>
-                        <div class="tile is-ancestor">
-                            <div class="tile is-parent">
-                                <div class="tile is-child box">
-                                    <h1 class="title">Davis Library</h1>
-                   
-                                    <div class="field">
-                                        <label class="label">Location</label>
-                                            <div class="control">
-                                                <div class="select">
-                                                <select>
-                                                <option>Select dropdown</option>
-                                                <option>With options</option>
-                                                </select>
-                                            </div>
-                                    </div>
-                            </div>
-                   
-                        <div class="field">
-                            <label class="label">Time:</label>
-                                <div class="control">
-                                    <div class="input"></div>
-                                </div>
-                        </div>
+//replace X with Y function to replace main page with review form
+//create form 
+//take people's input from form, check it against what we already have
+//if information is new, create new StudySpot object from user input
+//if information isn't new, add to database
 
-                   <div class="field">
-                       <label class="label">Rating: &#9734; &#9734; &#9734; &#9734; &#9734;</label>
-                   </div>
+//need to check if already in database
+//want to autofill location name
+  let reviewForm = `<container> <form>
+  <h3>Enter location name:</h3> 
+  <textarea type = "text" id = "placeholder"></textarea> <br> <br> 
+  `;
+  const $root = $('#root');
+  // data.forEach(location => {
+  //   reviewForm += `<option value = ${location.id}>${location.name}</option>`;
+  // });
+ reviewForm += `
+ <h3>Would you study here again? </h3>
+ <select name = "Would Study Here Again?">
+     <option value = "true">Yes</option>
+     <option value = "false">No</option>
+ </select> <br> <br> 
+ <h3> Select rating out of five:</h3> 
+ <select name = "Rating">
+     <option value = "1">&#x2605</option>
+     <option value = "2">&#x2605 &#x2605</option>
+     <option value = "3">&#x2605 &#x2605 &#x2605</option>
+     <option value = "4">&#x2605 &#x2605 &#x2605 &#x2605</option>
+     <option value = "5">&#x2605 &#x2605 &#x2605 &#x2605 &#x2605</option>
+ </select> <br> <br> 
+ <h3>Any other comments? </h3> 
+ <textarea type = "text" class = "comments" id = "comments"></textarea> <br> <br> 
+<button class="button submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> <br> 
+</form> </container>
+`;
+ $root.html(reviewForm);
+}
 
-                   <div class="field">
-                       <label class="label">Would Study Again?:</label>
-                       <div class="control">
-                         <label class="radio">
-                           <input type="radio" name="question">Yes</label>
-                         <label class="radio">
-                           <input type="radio" name="question">No</label>
-                       </div>
-                   </div>
-
-                   <div class="field">
-                        <label class="label">Additional Tags</label>
-                        <div class="control">
-                            <label class="checkbox">
-                            <input type="checkbox">Loud</label>
-
-                       <label class="checkbox">
-                        <input type="checkbox">Quiet</label>
-
-                       <label class="checkbox"><input type="checkbox">Busy</label>
-
-                       <label class="checkbox"><input type="checkbox">Good for Group Work</label>
-
-                        </div>
-                   </div>
-
-                   <div class="field">
-                     <div class="control">
-                       <textarea class="textarea" placeholder="Textarea"></textarea>
-                     </div>
-                   </div>
-                   
-                   <div class="field is-grouped">
-                     <div class="control">
-                       <button class="button is-link">Submit</button>
-                     </div>
-                     <div class="control">
-                       <button class="button is-link is-light">Cancel</button>
-                     </div>
-                   </div>
-             </div>
-         </div>
-     </div>
- </section>`
- $root.append(reviewForm)
+export const addInfoToDb = function(){
+    return ``;
 }
 
 export const renderRandomStudySpot = function(){
@@ -148,31 +118,18 @@ export const renderRandomStudySpot = function(){
               </article>
         </div>
     </div>
-</div>`
+</div>`;
 
     $root.append(studySpot)
 }
 
 
-export const addNewSpot = function(){
-    //replace X with Y function to replace main page with addNewSpot form
-    //create form 
-    //take people's input from form, check it against what we already have
-    //if information is new, create new StudySpot object from user input
-    let newForm = ``
-
-    $root.append(newForm)
-}
-
 $(function(){ 
-    const $root = $('#root')
+    const $root = $('#root');
     renderMainPage();
     //renderRandomStudySpot()
 
     //renderReviewForm()
 
-    $root.on("click", ".review", renderReviewForm)
-    $root.on("click", ".create", addNewSpot)
-    
-
+    $root.on("click", ".addDB", addInfoToDb);
 })
