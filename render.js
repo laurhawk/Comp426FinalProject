@@ -24,46 +24,54 @@ export const renderMainPage = function(){
 
     // Pick a spot from the list at random
     //var randomSpot = spots[Math.floor(Math.random() * spots.length)];
-    //mainPage += randomSpot;
+    //mainPage += <div class= "column">randomSpot</div>;
 
 $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
 //not sure addDb is the right class i think lauren changed it?
 $root.on("click", ".addDB", handleSubmitReviewForm);
-
+//handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 
 }
+/*
+<div class= "section container columns">
+                        <div class="column">
+                        <div class = "field"></div>
+                        <div class = "control has-icons-left has-icons-right">
+                        <div class = "control has-icons-left has-icons-right">
+                */
 
 export const renderLoginForm = function(){
   const $root = $('#root');
-  let form_html = `<form class = "login">
-                    <div class= "section container columns">
-                    <div class="column">
-                    <div class = "field">
-                        <label class = "label">Username</label>
-                            <div class = "control has-icons-left has-icons-right">
-                            <input class = "input is-right " type = "text" placeholder = "Username">
-                            </input>
-                            </div> 
-                    </div>`
-        form_html += `<label class = "label">Password</label>
-                        <div class = "field">
-                        <div class = "control has-icons-left has-icons-right">
-                            <input class = "input" type = "text" placeholder = "Password"></input>
-                        </div>
-                        </div>
-                            <br>
-                            <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
-                        </div>
-                        <div class = "column">
-                            <br>
-                            <button class = "button is-primary newlogin" style="background-color: #7BAFD4">Create New Account</button>
-                        </div>
-                    </div></form>
+  let form_html = `<form class = "loginForm">
+                <div class="section columns">
+
+                <div class="column">
+                <div class="field>
+                    <label class = "label">Username</label>
+                    <input class = "input is-right " type = "text" placeholder = "Username"></input>
+                </div>
+                    
+                <div class="field>
+                    <label class = "label">Password</label>
+                    <input class = "input" type = "text" placeholder = "Password"></input>
+                </div>           
+                <br>     
+                <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
+                </div>
+
+                <div class="column">
+                <button class = "button is-primary newlogin" id="create" style="background-color: #7BAFD4">Create New Account</button>
+                </div></div></form>
   `;
+
+  //there are some login button issues, the .login class doesnt refer to the render create new user button
+  //but create new user form only goes this way and it doesn't allow the login button to be pressed while on that form
+  //also, the login fields don't work on the actual login part
   $root.html(form_html);
-  $(document).on("click", ".login", renderCreateNewUser);
+  $(document).on("click", ".submitlogin", login);
+  $(document).on("click", ".newlogin", renderCreateNewUser);
   
 }
 
@@ -109,6 +117,13 @@ export const submitUserToDb = function(){
     in the above function to the user login database (and check if the username is available etc)
     */
 }
+
+export const login = function(){
+    return; 
+    /*
+    Handle Login event
+    */
+}
 export const renderReviewForm = function(){
 //replace X with Y function to replace main page with review form
 //create form 
@@ -119,7 +134,7 @@ export const renderReviewForm = function(){
 //need to check if already in database
 //want to autofill location name
 const $root = $('#root');
-  let reviewForm = `<div class="container"> 
+  let reviewForm = `<div class="section container"> 
                         <form>
                             <h3>Enter location name:</h3> 
                                 <textarea class = "textarea" type = "text" placeholder="Davis Library" id = "placeholder"></textarea> 
@@ -136,7 +151,7 @@ const $root = $('#root');
     <div class="control">
         <h3>Would you study here again? </h3>
             <div class="select is-rounded">
-                <select class = "selectWouldStudy" name = "Would Study Here Again?">
+                <select name = "Would Study Here Again?">
                     <option value = "true">Yes</option>
                     <option value = "false">No</option>
                 </select> 
@@ -149,7 +164,7 @@ const $root = $('#root');
                     <div class="control">
                         <h3> Select rating out of five:</h3> 
                             <div class="select is-rounded">
-                                <select class = "selectRating" name = "Rating">
+                                <select name = "Rating">
                                     <option value = "1">&#x2605</option>
                                     <option value = "2">&#x2605 &#x2605</option>
                                     <option value = "3">&#x2605 &#x2605 &#x2605</option>
@@ -163,7 +178,7 @@ const $root = $('#root');
  //other comments
  reviewForm+=`<h3>Any other comments? </h3> 
  <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Too crowded"></textarea> <br> <br> 
-<button class="button submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
+<button class="button is-primary submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
 </form> </div>
 `;
 $root.html(reviewForm);
@@ -181,15 +196,18 @@ var comments = userInput[3]
 let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
 study_data.set(s1.id.toString(), s1);
 */
+
+
+ 
 }
 
 export const handleSubmitReviewForm = function(event){
-  //get values from selector classes/ textareas (handle autofill name separately)
-  let wouldStudy = $(".selectWouldStudy").val();
-  let rating = $(".selectRating").val();
-  let comments = $("#comments").val();
-
-}
+    //get values from selector classes/ textareas (handle autofill name separately)
+    let wouldStudy = $(".selectWouldStudy").val();
+    let rating = $(".selectRating").val();
+    let comments = $("#comments").val();
+  
+  }
 
 export const addInfoToDb = function(){
     return ``;
