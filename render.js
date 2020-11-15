@@ -28,6 +28,9 @@ export const renderMainPage = function(){
 
 $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
+//not sure addDb is the right class i think lauren changed it?
+$root.on("click", ".addDB", handleSubmitReviewForm);
+
 $(document).on("click", ".login", renderLoginForm);
 
 }
@@ -133,7 +136,7 @@ const $root = $('#root');
     <div class="control">
         <h3>Would you study here again? </h3>
             <div class="select is-rounded">
-                <select name = "Would Study Here Again?">
+                <select class = "selectWouldStudy" name = "Would Study Here Again?">
                     <option value = "true">Yes</option>
                     <option value = "false">No</option>
                 </select> 
@@ -146,7 +149,7 @@ const $root = $('#root');
                     <div class="control">
                         <h3> Select rating out of five:</h3> 
                             <div class="select is-rounded">
-                                <select name = "Rating">
+                                <select class = "selectRating" name = "Rating">
                                     <option value = "1">&#x2605</option>
                                     <option value = "2">&#x2605 &#x2605</option>
                                     <option value = "3">&#x2605 &#x2605 &#x2605</option>
@@ -178,8 +181,14 @@ var comments = userInput[3]
 let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
 study_data.set(s1.id.toString(), s1);
 */
+}
 
- 
+export const handleSubmitReviewForm = function(event){
+  //get values from selector classes/ textareas (handle autofill name separately)
+  let wouldStudy = $(".selectWouldStudy").val();
+  let rating = $(".selectRating").val();
+  let comments = $("#comments").val();
+
 }
 
 export const addInfoToDb = function(){
