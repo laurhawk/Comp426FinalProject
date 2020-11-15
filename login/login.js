@@ -14,7 +14,7 @@ app.use(expressSession({
     saveUninitialized: false
 }));
 
-const Secret = require("./Secret.js");
+const Secret = require("./secret.js");
 
 const login_data = require('data-store')({ path: process.cwd() + '/data/users.json' });
 

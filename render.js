@@ -153,8 +153,12 @@ export const renderRandomStudySpot = function(){
     $root.append(studySpot)
 }
 
-export const addNewSpot = function(){
 
+export const addNewSpot = function(){
+    //replace X with Y function to replace main page with addNewSpot form
+    //create form 
+    //take people's input from form, check it against what we already have
+    //if information is new, create new StudySpot object from user input
     let newForm = ``
 
     $root.append(newForm)
@@ -163,7 +167,7 @@ export const addNewSpot = function(){
 $(function(){ 
     const $root = $('#root')
     renderMainPage();
-    renderRandomStudySpot()
+    //renderRandomStudySpot()
 
     //renderReviewForm()
 
