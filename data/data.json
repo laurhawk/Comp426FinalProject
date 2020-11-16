@@ -1,7 +1,7 @@
 {
   "1": {
     "id": 1,
-    "name": "Davis",
+    "name": "Davis Library",
     "wouldStudy": [],
     "ratings": [],
     "comments": []
@@ -82,5 +82,19 @@
     "wouldStudy": true,
     "rating": 4,
     "comments": "Great, quiet place!"
+  },
+  "13" : {
+    "id": 13,
+    "name": "Wilson Library",
+    "wouldStudy": true,
+    "rating": 3.5,
+    "comments": "Too quiet"
+  },
+  "14":{
+    "id":14,
+    "name": "Student Union",
+    "wouldStudy": [],
+    "rating": [],
+    "comments": []
   }
 }

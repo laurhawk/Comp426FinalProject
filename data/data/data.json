@@ -1,0 +1,16 @@
+{
+  "12": {
+    "id": 12,
+    "name": "Wilson Library",
+    "wouldStudy": true,
+    "rating": 4,
+    "comments": "Too quiet"
+  },
+  "13": {
+    "id": 13,
+    "name": "Wilson Library",
+    "wouldStudy": true,
+    "rating": 4,
+    "comments": "Too quiet"
+  }
+}

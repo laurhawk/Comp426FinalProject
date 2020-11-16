@@ -32,8 +32,74 @@ $root.on("click", ".review", renderReviewForm);
 $root.on("click", ".addDB", handleSubmitReviewForm);
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
+//$(document).on("click", "#takeMeHome", renderMainPage);
+
 
 }
+
+//functions below this mimic a04; need to take data from data files and turn that data into individual pages
+
+export const renderSpotCard = function(spot) {
+    return `<div class = "card container is-multiline has-text-centered">
+             <div class="column">
+                 <h1 class = "title has-text-centered">  
+                 <span>${spot.name}</span>
+                 </h1>
+ 
+                 <img src = ${spot.img}>
+ 
+                     <h2> ${spot.rating} ${spot.wouldStudy} </h2>
+                        <p class="is-small"> ${spot.comments} </p>
+                        <button class="button review is-light"> Review </button>
+             </div>
+             </div>`
+ };
+
+export const loadSpotsIntoDOM = function(spots) {
+    // Grab a jQuery reference to the root HTML element
+    const $root = $('#root');
+
+    // TODO: Generate the heroes using renderHeroCard()
+    // TODO: Append the hero cards to the $root element
+    for(var i=0;i<spots.length; i++){
+        $root.append(renderHeroCard(spots[i]))
+    }
+    
+    // Pick a hero from the list at random
+    const randomSpot = spots[Math.floor(Math.random() * spots.length)];
+
+};
+
+export const renderRandomStudySpot = function(spot){
+    let studySpot = `<div class="tile is-ancestor">
+    <div class="tile is-4 is-vertical is-parent">
+        <div class="tile is-child box">
+            <h1 class="title"> Davis Library</h1>
+            <img src="https://library.unc.edu/wp-content/uploads/2019/08/davis.jpg" alt="Davis Library">
+            <h2>Davis Library is a study spot located in the heart of campus right next to the Pit.</h2>
+            <h2> <b>OPEN?:</b> Yes </h2>
+            <button type="submit">Write a Review for Davis Libary</button>
+        </div>
+    </div>
+
+    <div class="tile is-parent">
+        <div class="tile is-child box">
+            <h1 class="title">&#9733; &#9733; &#9733; &#9734; &#9734; </h1>
+            <h2><b>Would Study Again?:</b> 50%<br>
+            <b>Popular Study Spot:</b> First Floor<br>
+            <b>Busy:</b>10AM-1AM<br>
+            
+            <b>Similar to Davis Libary:</b> Undergraduate Library, Student Union</h2>
+        </div>
+    </div>
+</div>
+
+`;
+
+    $root.append(studySpot)
+}
+
+//end a04/a05 functions to be completed
 /*
 <div class= "section container columns">
                         <div class="column">
@@ -55,7 +121,7 @@ export const renderLoginForm = function(){
                     
                 <div class="field>
                     <label class = "label">Password</label>
-                    <input class = "input" type = "text" placeholder = "Password"></input>
+                    <input class = "input" type = "password" placeholder = "Password"></input>
                 </div>           
                 <br>     
                 <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
@@ -90,21 +156,26 @@ export const renderCreateNewUser = function(){
                     </div>
                     <div class= "field">
                         <label class = "label">Email</label>
-                        <input class = "input" type = "email" placeholder = "Email"></input>
+                        <input class = "input" type = "email" placeholder = "email@cs.unc.edu"></input>
                     </div>
                     <div class= "field">
-                        <label class = "label">Enter Username</label>
+                        <label class = "label">Create Username</label>
                         <input class = "input" type = "text" placeholder = "Username"></input>
                     </div>
                     <div class= "field">
-                        <label class = "label">Enter Password</label>
-                        <input class = "input" type = "text" placeholder = "Password"></input>
+                        <label class = "label">Create Password</label>
+                        <input class = "input" type = "password" placeholder = "Password"></input>
+                    </div>
+                    <div class= "field">
+                        <label class = "label">Confirm Password</label>
+                        <input class = "input" type = "password" placeholder = "Password"></input>
                     </div>
                     <br>
                     <button class="button is-primary submit create" style="background-color: #7BAFD4"> Create Account </button>
                     </div>
                     </form>`
 
+    //check that the two created passwords match
 
     $root.html(newUser)
     $(document).on("click", ".create", submitUserToDb);
@@ -136,9 +207,28 @@ export const renderReviewForm = function(){
 const $root = $('#root');
   let reviewForm = `<div class="section container"> 
                         <form>
-                            <h3>Enter location name:</h3> 
-                                <textarea class = "textarea" type = "text" placeholder="Davis Library" id = "placeholder"></textarea> 
-                                <br> 
+                        <div class="field">
+                        <div class="control">
+                            <h3>Select location:</h3>
+                                <div class="select is-rounded">
+                                    <select name = "Select location:">
+                                        <option value = "Davis Library">Davis Library</option>
+                                        <option value = "Undergraduate Library">Undergraduate Library</option>
+                                        <option value = "The Quad">The Quad</option>
+                                        <option value = "The Pit">The Pit</option>
+                                        <option value = "Bottom of Lenoir">Bottom of Lenoir</option>
+                                        <option value = "Genome Sciences Cafe">Genome Sciences Cafe</option>
+                                        <option value = "Sitterson Lobby">Sitterson Lobby</option>
+                                        <option value = "Sloane Art Library">Sloane Art Library</option>
+                                        <option value = "Phillips Hall">Phillips Hall</option>
+                                        <option value = "TOPO">TOPO</option>
+                                        <option value = "Starbucks on Franklin">Starbucks on Franklin</option>
+                                        <option value = "Kenan Science Library">Kenan Science Library</option>
+                                        <option value = "Wilson">Wilson Library</option>
+                                    </select> 
+                                </div>
+                        </div>
+                     </div><br>
   `;
   
   // data.forEach(location => {
@@ -212,58 +302,6 @@ export const handleSubmitReviewForm = function(event){
 export const addInfoToDb = function(){
     return ``;
 }
-
-export const renderRandomStudySpot = function(){
-    let studySpot = `<div class="tile is-ancestor">
-    <div class="tile is-4 is-vertical is-parent">
-        <div class="tile is-child box">
-            <h1 class="title"> Davis Library</h1>
-            <img src="https://library.unc.edu/wp-content/uploads/2019/08/davis.jpg" alt="Davis Library">
-            <h2>Davis Library is a study spot located in the heart of campus right next to the Pit.</h2>
-            <h2> <b>OPEN?:</b> Yes </h2>
-            <button type="submit">Write a Review for Davis Libary</button>
-        </div>
-    </div>
-
-    <div class="tile is-parent">
-        <div class="tile is-child box">
-            <h1 class="title">&#9733; &#9733; &#9733; &#9734; &#9734; </h1>
-            <h2><b>Would Study Again?:</b> 50%<br>
-            <b>Popular Study Spot:</b> First Floor<br>
-            <b>Busy:</b>10AM-1AM<br>
-            <b>Davis Libary's Top Tags:</b> Quiet, Good for Group Projects, Busy<br>
-            <b>Similar to Davis Libary:</b> Undergraduate Library, Student Union</h2>
-        </div>
-    </div>
-</div>
-
-
-<div class="tile is-ancestor">
-    <div class="tile is-parent">
-        <div class="tile is-child box">
-            <article class="media">
-                <div class="media-content">
-                  <div class="content">
-                    <h1 class="title">
-                      &#9733; &#9733; &#9733; &git#9734; &#9734; <br>First Floor 10/11/20 1:00PM-1:00AM
-                    </h1>
-
-                    <h3><b>Would Study Again?:</b> Yes</h3>
-
-
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                    </p>
-                  </div>
-                </div>
-              </article>
-        </div>
-    </div>
-</div>`;
-
-    $root.append(studySpot)
-}
-
 
 $(function(){ 
     const $root = $('#root');

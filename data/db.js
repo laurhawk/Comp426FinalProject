@@ -46,7 +46,7 @@ StudySpot.create = (name, wouldStudy, rating, comments) => {
     return s;
 }
 
-//let s1 = new StudySpot(12, "Kenan Science Library", true, 4, "Great, quiet place!");
+//let s1 = new StudySpot(13, "Wilson Library", true, 4, "Too quiet");
 //study_data.set(s1.id.toString(), s1);
 
 module.exports = StudySpot;
