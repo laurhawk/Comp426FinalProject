@@ -16,3 +16,9 @@ textarea{
     text-align: left;
     align-content: left;
 }
+
+#map {
+    height: 400px;
+    width: 100%;
+  }
+  
