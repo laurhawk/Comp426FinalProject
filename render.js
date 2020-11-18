@@ -16,6 +16,7 @@ export const renderMainPage = function(){
                     </section>
                     <section class="section">
                         <div class="container" justify-content= "center" align-content= "center" text-align="center" >
+                            <button class="button is-primary submit random" style="background-color: #7BAFD4"> Show me a spot! </button>
                             <button class="button is-primary submit review" style="background-color: #7BAFD4"> Submit a Review </button>
                         </div>
                     <section>
@@ -30,6 +31,8 @@ $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
 //not sure addDb is the right class i think lauren changed it?
 $root.on("click", ".addDB", handleSubmitReviewForm);
+
+$root.on("click", ".random", renderSpotCard)
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 //$(document).on("click", "#takeMeHome", renderMainPage);
@@ -40,7 +43,17 @@ $(document).on("click", ".login", renderLoginForm);
 //functions below this mimic a04; need to take data from data files and turn that data into individual pages
 
 export const renderSpotCard = function(spot) {
-    return `<div class = "card container is-multiline has-text-centered">
+    const $root = $('#root');
+    //var davis;
+    $.getJSON( "../data/spotData.json", function( json ) {
+        //alert(JSON.stringify(json));
+        console.log( "JSON Data: " + JSON.stringify(json[1]) );
+        //davis = JSON.stringify(json[1])
+       });
+       //console.log(davis)
+
+    var page = `<div id="${spot.id}"
+            <div class = "card container is-multiline has-text-centered">
              <div class="column">
                  <h1 class = "title has-text-centered">  
                  <span>${spot.name}</span>
@@ -53,6 +66,8 @@ export const renderSpotCard = function(spot) {
                         <button class="button review is-light"> Review </button>
              </div>
              </div>`
+
+    $root.html(page)
  };
 
 export const loadSpotsIntoDOM = function(spots) {
@@ -62,7 +77,7 @@ export const loadSpotsIntoDOM = function(spots) {
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
     for(var i=0;i<spots.length; i++){
-        $root.append(renderHeroCard(spots[i]))
+        $root.append(renderSpotCard(spots[i]))
     }
     
     // Pick a hero from the list at random
@@ -71,6 +86,7 @@ export const loadSpotsIntoDOM = function(spots) {
 };
 
 export const renderRandomStudySpot = function(spot){
+    const $root = $('#root')
     let studySpot = `<div class="tile is-ancestor">
     <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -96,7 +112,7 @@ export const renderRandomStudySpot = function(spot){
 
 `;
 
-    $root.append(studySpot)
+    $root.html(studySpot)
 }
 
 //end a04/a05 functions to be completed
@@ -224,7 +240,8 @@ const $root = $('#root');
                                         <option value = "TOPO">TOPO</option>
                                         <option value = "Starbucks on Franklin">Starbucks on Franklin</option>
                                         <option value = "Kenan Science Library">Kenan Science Library</option>
-                                        <option value = "Wilson">Wilson Library</option>
+                                        <option value = "Wilson Library">Wilson Library</option>
+                                        <option value = "Student Union">Student Union</option>
                                     </select> 
                                 </div>
                         </div>
@@ -267,7 +284,7 @@ const $root = $('#root');
  
  //other comments
  reviewForm+=`<h3>Any other comments? </h3> 
- <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Too crowded"></textarea> <br> <br> 
+ <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Ex. too crowded, really quiet"></textarea> <br> <br> 
 <button class="button is-primary submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
 </form> </div>
 `;
@@ -309,6 +326,14 @@ $(function(){
     //renderRandomStudySpot()
 
     //renderReviewForm()
+
+   /*
+    $.getJSON( "../data/spotData.json", function( json ) {
+        //alert(JSON.stringify(json));
+        console.log( "JSON Data: " + JSON.stringify(json[1]) );
+       });
+
+    */
 
     $root.on("click", ".addDB", addInfoToDb);
 })
