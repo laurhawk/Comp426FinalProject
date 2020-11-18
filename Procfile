@@ -1,1 +1,1 @@
-web: node render.js
+web: node Comp426FinalProject/render.js
