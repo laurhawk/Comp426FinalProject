@@ -37,8 +37,6 @@ $root.on("click", ".random", renderSpotCard)
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 //$(document).on("click", "#takeMeHome", renderMainPage);
-
-
 }
 
 // Initialize and add the map
@@ -162,21 +160,22 @@ export const renderSpotCard = function(spot) {
              </div>
              </div>`
 
-    $root.html(page)
+    $root.append(page)
  };
 
-export const loadSpotsIntoDOM = function (spots) {
+export const loadSpotsIntoDOM = function(spot) {
     // Grab a jQuery reference to the root HTML element
     const $root = $('#root');
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
-    for(var i=0;i<spots.length; i++){
-        $root.append(renderSpotCard(spots[i]))
+    for(var i=0;i<spot.length; i++){
+        $root.append(renderSpotCard(spot[i]))
     }
 
     // Pick a hero from the list at random
-    const randomSpot = spots[Math.floor(Math.random() * spots.length)];
+    const randomSpot = spot[Math.floor(Math.random() * spot.length)];
+    $root.append(spot)
 
 };
 
@@ -207,7 +206,7 @@ export const renderRandomStudySpot = function(spot){
 
 `;
 
-    $root.html(studySpot)
+    $root.append(studySpot)
 }
 
 //end a04/a05 functions to be completed
@@ -417,8 +416,12 @@ export const addInfoToDb = function () {
 
 $(function () {
     const $root = $('#root');
+    
     renderMainPage();
     initMap();
+    //console.log(spotData)
+    loadSpotsIntoDOM(spotData)
+    
     //renderRandomStudySpot()
 
     //renderReviewForm()
