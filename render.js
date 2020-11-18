@@ -28,7 +28,6 @@ export const renderMainPage = function () {
     //var randomSpot = spots[Math.floor(Math.random() * spots.length)];
     //mainPage += <div class= "column">randomSpot</div>;
 
-<<<<<<< HEAD
 $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
 //not sure addDb is the right class i think lauren changed it?
@@ -38,15 +37,6 @@ $root.on("click", ".random", renderSpotCard)
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 //$(document).on("click", "#takeMeHome", renderMainPage);
-=======
-    $root.append(mainPage);
-    $root.on("click", ".review", renderReviewForm);
-    //not sure addDb is the right class i think lauren changed it?
-    $root.on("click", ".addDB", handleSubmitReviewForm);
-    //handle login button on index file
-    $(document).on("click", ".login", renderLoginForm);
-    //$(document).on("click", "#takeMeHome", renderMainPage);
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
 
 
 }
@@ -147,7 +137,6 @@ export function initMap() {
 
 //functions below this mimic a04; need to take data from data files and turn that data into individual pages
 
-<<<<<<< HEAD
 export const renderSpotCard = function(spot) {
     const $root = $('#root');
     //var davis;
@@ -160,10 +149,6 @@ export const renderSpotCard = function(spot) {
 
     var page = `<div id="${spot.id}"
             <div class = "card container is-multiline has-text-centered">
-=======
-export const renderSpotCard = function (spot) {
-    return `<div class = "card container is-multiline has-text-centered">
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
              <div class="column">
                  <h1 class = "title has-text-centered">  
                  <span>${spot.name}</span>
@@ -176,13 +161,9 @@ export const renderSpotCard = function (spot) {
                         <button class="button review is-light"> Review </button>
              </div>
              </div>`
-<<<<<<< HEAD
 
     $root.html(page)
  };
-=======
-};
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
 
 export const loadSpotsIntoDOM = function (spots) {
     // Grab a jQuery reference to the root HTML element
@@ -190,13 +171,8 @@ export const loadSpotsIntoDOM = function (spots) {
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
-<<<<<<< HEAD
     for(var i=0;i<spots.length; i++){
         $root.append(renderSpotCard(spots[i]))
-=======
-    for (var i = 0; i < spots.length; i++) {
-        $root.append(renderHeroCard(spots[i]))
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
     }
 
     // Pick a hero from the list at random
@@ -204,12 +180,8 @@ export const loadSpotsIntoDOM = function (spots) {
 
 };
 
-<<<<<<< HEAD
 export const renderRandomStudySpot = function(spot){
     const $root = $('#root')
-=======
-export const renderRandomStudySpot = function (spot) {
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
     let studySpot = `<div class="tile is-ancestor">
     <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -404,17 +376,10 @@ export const renderReviewForm = function () {
                             </div>
                     </div>
                 </div><br> `
-<<<<<<< HEAD
- 
- //other comments
- reviewForm+=`<h3>Any other comments? </h3> 
- <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Ex. too crowded, really quiet"></textarea> <br> <br> 
-=======
 
     //other comments
     reviewForm += `<h3>Any other comments? </h3> 
  <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Too crowded"></textarea> <br> <br> 
->>>>>>> 40e5b5a2fde4b03e539cff822de0620a154a6b0c
 <button class="button is-primary submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
 </form> </div>
 `;
