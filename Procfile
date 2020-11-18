@@ -1,1 +1,1 @@
-web: node src/render.js
+web: node render.js
