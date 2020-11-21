@@ -17,7 +17,7 @@ export const renderMainPage = function () {
                     </section>
                     <section class="section">
                         <div class="container" justify-content= "center" align-content= "center" text-align="center" >
-                            <button class="button is-primary submit random" style="background-color: #7BAFD4"> Show me a spot! </button>
+                            <button class="button is-primary submit random" style="background-color: #7BAFD4"> Browse all Spots </button>
                             <button class="button is-primary submit review" style="background-color: #7BAFD4"> Submit a Review </button>
                         </div>
                     <section>
@@ -33,7 +33,7 @@ $root.on("click", ".review", renderReviewForm);
 //not sure addDb is the right class i think lauren changed it?
 $root.on("click", ".addDB", handleSubmitReviewForm);
 
-$root.on("click", ".random", renderSpotCard)
+//$root.on("click", ".random", renderSpotCard)
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 //$(document).on("click", "#takeMeHome", renderMainPage);
@@ -134,6 +134,24 @@ export function initMap() {
 }
 
 //functions below this mimic a04; need to take data from data files and turn that data into individual pages
+export const individualSpot = function(spot){
+    const $root = $('root');
+    var page = `<div id="${spot.id}">
+    <div class = "card container is-multiline has-text-centered spotcards" style="background-color:#DCDCDC">
+     <div class="column">
+         <h1 class = "title">  
+         <span>${spot.name}</span>
+         </h1>
+
+         <img src = ${spot.img}>
+
+             <h2> Rating: ${spot.rating} <br> Would Study Again? ${spot.wouldStudy} </h2>
+                <p class="is-small"> Comments: ${spot.comments} </p>
+     </div>
+     </div>`
+
+$root.html(page)
+}
 
 export const renderSpotCard = function(spot) {
     const $root = $('#root');
@@ -145,37 +163,38 @@ export const renderSpotCard = function(spot) {
        });
        //console.log(davis)
 
-    var page = `<div id="${spot.id}"
-            <div class = "card container is-multiline has-text-centered">
+    var page = `<div id="${spot.id}">
+            <div class = "card container is-multiline has-text-centered spotcards" style="background-color:#7BAFD4">
              <div class="column">
                  <h1 class = "title has-text-centered">  
-                 <span>${spot.name}</span>
+                 <span class="spotcards">${spot.name}</span>
                  </h1>
  
                  <img class = "card_img" src = ${spot.image}>
  
-                     <h2> ${spot.rating} ${spot.wouldStudy} </h2>
-                        <p class="is-small"> ${spot.comments} </p>
-                        <button class="button review is-light"> Review </button>
+                     <h2 class="spotcards"> Rating: ${spot.rating} <br> Would Study Again? ${spot.wouldStudy} </h2>
+                        <p class="is-small spotcards"> Comments: ${spot.comments} </p>
              </div>
              </div>`
 
     $root.append(page)
  };
 
-export const loadSpotsIntoDOM = function(spot) {
+export const loadSpotsIntoDOM = function() {
     // Grab a jQuery reference to the root HTML element
     const $root = $('#root');
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
-    for(var i=0;i<spot.length; i++){
-        $root.append(renderSpotCard(spot[i]))
+    for(var i=0;i<spotData.length; i++){
+        $root.html(renderSpotCard(spotData[i]))
     }
 
     // Pick a hero from the list at random
+    /*
     const randomSpot = spot[Math.floor(Math.random() * spot.length)];
-    $root.append(spot)
+    $root.append(randomSpot)
+    */
 
 };
 
@@ -385,8 +404,9 @@ export const renderReviewForm = function () {
     $root.html(reviewForm);
 
     //Figure out how to convert user input into something to put into database
-    /*
+    
     var userInput = $('form').serializeArray()
+    console.log(userInput)
     
     var name = userInput[0]
     var wouldStudy = userInput[1]
@@ -396,7 +416,7 @@ export const renderReviewForm = function () {
     //generate a random id greater than 12
     let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
     study_data.set(s1.id.toString(), s1);
-    */
+    
 
 
 
@@ -420,7 +440,9 @@ $(function () {
     renderMainPage();
     initMap();
     //console.log(spotData)
-    loadSpotsIntoDOM(spotData)
+    //$root.on("click", ".random", renderSpotCard)
+    $root.on("click", ".random", loadSpotsIntoDOM)
+    //loadSpotsIntoDOM(spotData)
     
     //renderRandomStudySpot()
 
