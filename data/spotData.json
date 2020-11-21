@@ -4,97 +4,111 @@
     "name": "Davis Library",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/davis.jpg"
   },
   "2": {
     "id": 2,
     "name": "Undergraduate Library",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/ul.jpg"
   },
   "3": {
     "id": 3,
     "name": "The Quad",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/quad.jpg"
   },
   "4": {
     "id": 4,
     "name": "The Pit",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/pit.jpg"
   },
   "5": {
     "id": 5,
     "name": "Bottom of Lenoir",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/lenoir.jpg"
   },
   "6": {
     "id": 6,
     "name": "Genome Sciences Cafe",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/genome.jpg"
   },
   "7": {
     "id": 7,
     "name": "Sitterson Lobby",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/sitterson.jpg"
   },
   "8": {
     "id": 8,
     "name": "Sloane Art Library",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/sloane.jpg"
   },
   "9": {
     "id": 9,
     "name": "Phillips Hall",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/phillips.jpg"
   },
   "10": {
     "id": 10,
     "name": "TOPO",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/topo.jpg"
   },
   "11": {
     "id": 11,
     "name": "Starbucks on Franklin",
     "wouldStudy": [],
     "ratings": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/starbucks.jpg"
   },
   "12": {
     "id": 12,
     "name": "Kenan Science Library",
     "wouldStudy": true,
     "rating": 4,
-    "comments": "Great, quiet place!"
+    "comments": "Great, quiet place!",
+    "image": "../images/kenan.jpg"
   },
   "13" : {
     "id": 13,
     "name": "Wilson Library",
     "wouldStudy": true,
     "rating": 3.5,
-    "comments": "Too quiet"
+    "comments": "Too quiet",
+    "image": "../images/wilson.jpg"
   },
   "14":{
     "id":14,
     "name": "Student Union",
     "wouldStudy": [],
     "rating": [],
-    "comments": []
+    "comments": [],
+    "image": "../images/union.jpg"
   }
 }
