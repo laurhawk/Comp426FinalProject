@@ -170,7 +170,7 @@ export const renderSpotCard = function(spot) {
                  <span class="spotcards">${spot.name}</span>
                  </h1>
  
-                 <img src = ${spot.img}>
+                 <img class = "card_img" src = ${spot.image}>
  
                      <h2 class="spotcards"> Rating: ${spot.rating} <br> Would Study Again? ${spot.wouldStudy} </h2>
                         <p class="is-small spotcards"> Comments: ${spot.comments} </p>
