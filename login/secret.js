@@ -1,4 +1,4 @@
-const secret_data = require('data-store')({ path: process.cwd() + '/data/secrets.json' });
+const secret_data = require('data-store')({ path: process.cwd() + '/login/loginData/secrets.json' });
 
 class Secret {
 

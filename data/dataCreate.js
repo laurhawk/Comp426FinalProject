@@ -22,9 +22,9 @@ app.get('/data/:id', (req, res) => {
 } );
 
 app.post('/book', (req, res)=> {
-    let {id, name, wouldStudy, rating, comments} = req.body;
+    let {id, name, wouldStudy, rating, comments, image} = req.body;
 
-    let s = StudySpot.create(id, name, wouldStudy, rating, comments);
+    let s = StudySpot.create(id, name, wouldStudy, rating, comments, image);
     if (s == null) {
         res.status(400).send("Bad Request");
         return;
@@ -39,12 +39,13 @@ app.put('/book/:id', (req, res) => {
         return;
     }
 
-    let {id, name, wouldStudy, rating, comments} = req.body;
+    let {id, name, wouldStudy, rating, comments, image} = req.body;
     s.id = id;
     s.name = name;
     s.wouldStudy = wouldStudy;
     s.rating = rating;
     s.comments = comments;
+    s.image = image;
     s.update();
 
     res.json(s);
