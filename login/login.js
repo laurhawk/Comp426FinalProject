@@ -8,15 +8,27 @@ app.use(bodyParser.json());
 const expressSession = require('express-session');
 
 app.use(expressSession({
-    name: "kmpSessionCookie",
+    name: "sessionCookie",
     secret: "express session secret",
     resave: false,
     saveUninitialized: false
 }));
 
-const Secret = require("./secret.js");
 
-const login_data = require('data-store')({ path: process.cwd() + '/data/users.json' });
+const User = require("./newUser.js");
+app.post('/create', (req, res)=> {
+    
+    let u = User.create(req.body.user, req.body.password, req.body.first, req.body.last, req.body.email);
+    if (u == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    return res.json(u);
+});
+
+
+const Secret = require("./secret.js");
+const login_data = require('data-store')({ path: process.cwd() + '/login/users/users.json' });
 
 app.post('/login', (req,res) => {
 
