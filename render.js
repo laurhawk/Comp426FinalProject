@@ -1,6 +1,7 @@
 
 //spots is a spot object from render.js
 //import data from "data.js"
+var functional_spots = [];
 export const renderMainPage = function () {
     const $root = $('#root');
 
@@ -32,7 +33,6 @@ $root.append(mainPage);
 $root.on("click", ".review", renderReviewForm);
 //not sure addDb is the right class i think lauren changed it?
 $root.on("click", ".addDB", handleSubmitReviewForm);
-
 //$root.on("click", ".random", renderSpotCard)
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
@@ -186,6 +186,7 @@ export const renderSpotCard = function(spot) {
        });
        //console.log(davis)
 
+    
     var page = `<div id="${spot.id}">
             <div class = "card container is-multiline has-text-centered spotcards" style="background-color:#7BAFD4">
              <div class="column">
@@ -195,21 +196,22 @@ export const renderSpotCard = function(spot) {
  
                  <img class = "card_img" src = ${spot.image}>
  
-                     <h2 class="spotcards"> Rating: ${spot.rating} <br> Would Study Again? ${spot.wouldStudy} </h2>
-                        <p class="is-small spotcards"> Comments: ${spot.comments} </p>
+                     <h2 class="spotcards"> Rating: ${avgRating(spot.ratings)} <br> ${wouldStudyPercentages(spot.wouldStudy)}% would study again</h2>
+                        <p class="is-small spotcards"> Comments: ${spot.comments[0]} </p>
              </div>
              </div>`
 
-    $root.append(page)
- };
+    $root.append(page);
+ }
 
-export const loadSpotsIntoDOM = function() {
+ export const loadSpotsIntoDOM = function() {
     // Grab a jQuery reference to the root HTML element
     const $root = $('#root');
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
     for(var i=0;i<spotData.length; i++){
+
         $root.html(renderSpotCard(spotData[i]))
     }
 
@@ -284,6 +286,7 @@ export const renderLoginForm = function () {
     $root.html(form_html);
     $(document).on("click", ".submitlogin", login);
     $(document).on("click", ".newlogin", renderCreateNewUser);
+    $root.on("click", "#submit", handleSubmitReviewForm());
 
 }
 
@@ -352,12 +355,12 @@ export const renderReviewForm = function () {
     //want to autofill location name
     const $root = $('#root');
     let reviewForm = `<div class="section container"> 
-                        <form>
+                        <form id = "reviewSpotForm">
                         <div class="field">
                         <div class="control">
                             <h3>Select location:</h3>
                                 <div class="select is-rounded">
-                                    <select name = "Select location:">
+                                    <select class = "selectLocation" name = "Select location:">
                                         <option value = "Davis Library">Davis Library</option>
                                         <option value = "Undergraduate Library">Undergraduate Library</option>
                                         <option value = "The Quad">The Quad</option>
@@ -388,7 +391,7 @@ export const renderReviewForm = function () {
     <div class="control">
         <h3>Would you study here again? </h3>
             <div class="select is-rounded">
-                <select name = "Would Study Here Again?">
+                <select class = "selectWouldStudy" name = "Would Study Here Again?">
                     <option value = "true">Yes</option>
                     <option value = "false">No</option>
                 </select> 
@@ -401,7 +404,7 @@ export const renderReviewForm = function () {
                     <div class="control">
                         <h3> Select rating out of five:</h3> 
                             <div class="select is-rounded">
-                                <select name = "Rating">
+                                <select class = "selectRating" name = "Rating">
                                     <option value = "1">&#x2605</option>
                                     <option value = "2">&#x2605 &#x2605</option>
                                     <option value = "3">&#x2605 &#x2605 &#x2605</option>
@@ -415,37 +418,105 @@ export const renderReviewForm = function () {
     //other comments
     reviewForm += `<h3>Any other comments? </h3> 
  <textarea type = "text" class = "textarea placeholder comments" id = "comments" placeholder="Too crowded"></textarea> <br> <br> 
-<button class="button is-primary submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
+<button type = "submit" class="button is-primary submit addDB" id = "submit" style="background-color: #7BAFD4">Submit</button> <br> 
 </form> </div>
 `;
     $root.html(reviewForm);
+    
+    
 
     //Figure out how to convert user input into something to put into database
     
-    var userInput = $('form').serializeArray()
-    console.log(userInput)
+    // var userInput = $('form').serializeArray()
+    // console.log(userInput)
     
-    var name = userInput[0]
-    var wouldStudy = userInput[1]
-    var rating = userInput[2]
-    var comments = userInput[3]
     
-    //generate a random id greater than 12
-    let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
-    study_data.set(s1.id.toString(), s1);
+    // var name = userInput[0]
+    // var wouldStudy = userInput[1]
+    // var rating = userInput[2]
+    // var comments = userInput[3]
     
+    // //generate a random id greater than 12
+    // let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
+    // study_data.set(s1.id.toString(), s1);
+    
+
+
+
 }
 
-export const handleSubmitReviewForm = function (event) {
+export const handleSubmitReviewForm = function () {
+    //event.preventDefault();
     //get values from selector classes/ textareas (handle autofill name separately)
-    let wouldStudy = $(".selectWouldStudy").val();
-    let rating = $(".selectRating").val();
-    let comments = $("#comments").val();
+    let w_new = $(".selectWouldStudy").val();
+    let r_new = $(".selectRating").val();
+    let c_new = $("#comments").val();
+    let l = $(".selectLocation").val();
+
+    let w_old;
+    let c_old;
+    let r_old;
+    let spot_image;
+    let spot_id;
+    
+    spotData.forEach(spot => {
+        if(spot.name == l){
+            spot_image = spot.image;
+            spot_id = spot.id;
+            c_old = spot.comments;
+            r_old = spot.ratings;
+            w_old = spot.wouldStudy;
+        }
+    });
+    c_old.append(c_new);
+    w_old.append(w_new);
+    r_old.append(r_new);
+
+
+    var newSpot = {"id": spot_id, "name": l, "wouldStudy": w_old, "ratings": r_old, "comments": c_old, "image": spot_image};
+    
+    const express = require('express');
+    const filename = './sData.js';
+    const file = require(filename);
+
+    express.write(filename, JSON.stringify(file), function writeJSON(err){
+        if (err) return console.log("ERROR WRITE" + err);
+        console.log(JSON.stringify(file, null, 6));
+        console.log('writing to' + filename);
+    })
 
 }
 
 export const addInfoToDb = function () {
     return ``;
+}
+
+export const avgRating = function(ratings){
+    let sum = 0;
+    if(ratings.length==0){
+        return 0;
+    }
+    for(let i = 0 ; i < ratings.length; i++){
+        sum += ratings[i];
+    }
+
+    return Math.round(sum*10/ratings.length)/10;
+}
+
+export const wouldStudyPercentages = function(wouldStudyArr){
+    let yes = 0;
+    let no = 0;
+    if(wouldStudyArr.length==0){
+        return 0;
+    }
+    for(let i = 0; i<wouldStudyArr.length; i++){
+        if (wouldStudyArr[i]){
+            yes += 1;
+        } else {
+            no += 1;
+        }
+    }
+    return Math.round((yes/wouldStudyArr.length)*100);
 }
 
 $(function () {
@@ -454,4 +525,5 @@ $(function () {
     initMap();
     $root.on("click", ".random", loadSpotsIntoDOM)
     $root.on("click", ".addDB", addInfoToDb);
+
 })
