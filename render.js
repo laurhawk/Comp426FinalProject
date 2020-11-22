@@ -146,31 +146,39 @@ export const individualSpot = function(){
     var x = document.getElementsByClassName('namesl');
 
     for (var i = 0; i < x.length; i++) {  
-        //console.log(names.length)
-        console.log(input)
-        console.log(x[i])
-        //console.log(x[i].innerHTML.toLowerCase().includes(input))
+        //console.log(input)
+        //console.log(x[i])
         if (!x[i].innerHTML.toLowerCase().includes(input)) { 
             console.log("false")
         } 
         else { 
-            var item = `<div id="${x[i].id}">`
+           //console.log(x[i].innerHTML)
+           var listi = x[i].innerHTML.toLowerCase()
+           for(var i=0; i<spotData.length; i++){
+               //console.log(spotData[i].name + "name at each index")
+                if(listi.includes(spotData[i].name.toLowerCase())){
+                    var temp = spotData[i]
+                    //console.log(temp)
+                }
+        }
+
+            var item = `<div id="${temp.id}">`
             item += `
             <div class = "card container" style="background-color:#DCDCDC">
             <div class="column" align-content=left style="text-align:left">
                  <h1 class = "title has-text-left">  
-                 <span class="individual cards">${x[i].innerHTML.toUpperCase()}</span>
+                 <span class="individual cards">${temp.name}</span>
                  </h1>
  
-                 <img class = "card_img" src = ${x[i].image}>
+                 <img class = "card_img" src = ${temp.image}>
  
-                     <h2 class="individualcards"> Rating: ${x[i].rating} <br> Would Study Again? ${x[i].wouldStudy} </h2>
-                        <p class="is-small individualcards"> Comments: ${x[i].comments} </p>
+                     <h2 class="individualcards"> Rating: ${temp.rating} <br> Would Study Again? ${temp.wouldStudy} </h2>
+                        <p class="is-small individualcards"> Comments: ${temp.comments} </p>
              </div>
              </div>`
             $root.html(item)
             //x[i].style.display="list-item"
-            console.log("true")
+            //console.log("true")
 
         } 
     } 
