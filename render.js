@@ -37,6 +37,9 @@ $root.on("click", ".addDB", handleSubmitReviewForm);
 //handle login button on index file
 $(document).on("click", ".login", renderLoginForm);
 //$(document).on("click", "#takeMeHome", renderMainPage);
+$(document).on("click", ".search", individualSpot)
+//whenever you click search button, needs to root.html a function that returns a new page with 
+//the spot data you searched as the parameter
 }
 
 // Initialize and add the map
@@ -134,23 +137,43 @@ export function initMap() {
 }
 
 //functions below this mimic a04; need to take data from data files and turn that data into individual pages
-export const individualSpot = function(spot){
-    const $root = $('root');
-    var page = `<div id="${spot.id}">
-    <div class = "card container is-multiline has-text-centered spotcards" style="background-color:#DCDCDC">
-     <div class="column">
-         <h1 class = "title">  
-         <span>${spot.name}</span>
-         </h1>
+export const individualSpot = function(){
+    const $root = $('#root');
+    let input = document.getElementById('theInput').value
+    //console.log(input)
+    input = input.toLowerCase()
+    //make x be list of sdata names
+    var x = document.getElementsByClassName('namesl');
 
-         <img src = ${spot.img}>
+    for (var i = 0; i < x.length; i++) {  
+        //console.log(names.length)
+        console.log(input)
+        console.log(x[i])
+        //console.log(x[i].innerHTML.toLowerCase().includes(input))
+        if (!x[i].innerHTML.toLowerCase().includes(input)) { 
+            console.log("false")
+        } 
+        else { 
+            var item = `<div id="${x[i].id}">`
+            item += `
+            <div class = "card container" style="background-color:#DCDCDC">
+            <div class="column" align-content=left style="text-align:left">
+                 <h1 class = "title has-text-left">  
+                 <span class="individual cards">${x[i].innerHTML.toUpperCase()}</span>
+                 </h1>
+ 
+                 <img class = "card_img" src = ${x[i].image}>
+ 
+                     <h2 class="individualcards"> Rating: ${x[i].rating} <br> Would Study Again? ${x[i].wouldStudy} </h2>
+                        <p class="is-small individualcards"> Comments: ${x[i].comments} </p>
+             </div>
+             </div>`
+            $root.html(item)
+            //x[i].style.display="list-item"
+            console.log("true")
 
-             <h2> Rating: ${spot.rating} <br> Would Study Again? ${spot.wouldStudy} </h2>
-                <p class="is-small"> Comments: ${spot.comments} </p>
-     </div>
-     </div>`
-
-$root.html(page)
+        } 
+    } 
 }
 
 export const renderSpotCard = function(spot) {
@@ -189,12 +212,6 @@ export const loadSpotsIntoDOM = function() {
     for(var i=0;i<spotData.length; i++){
         $root.html(renderSpotCard(spotData[i]))
     }
-
-    // Pick a hero from the list at random
-    /*
-    const randomSpot = spot[Math.floor(Math.random() * spot.length)];
-    $root.append(randomSpot)
-    */
 
 };
 
@@ -417,9 +434,6 @@ export const renderReviewForm = function () {
     let s1 = new StudySpot(13, name, wouldStudy, rating, comments);
     study_data.set(s1.id.toString(), s1);
     
-
-
-
 }
 
 export const handleSubmitReviewForm = function (event) {
@@ -435,26 +449,9 @@ export const addInfoToDb = function () {
 }
 
 $(function () {
-    const $root = $('#root');
-    
+    const $root = $('#root');  
     renderMainPage();
     initMap();
-    //console.log(spotData)
-    //$root.on("click", ".random", renderSpotCard)
     $root.on("click", ".random", loadSpotsIntoDOM)
-    //loadSpotsIntoDOM(spotData)
-    
-    //renderRandomStudySpot()
-
-    //renderReviewForm()
-
-   /*
-    $.getJSON( "../data/spotData.json", function( json ) {
-        //alert(JSON.stringify(json));
-        console.log( "JSON Data: " + JSON.stringify(json[1]) );
-       });
-
-    */
-
     $root.on("click", ".addDB", addInfoToDb);
 })
