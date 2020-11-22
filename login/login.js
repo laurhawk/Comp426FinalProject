@@ -31,26 +31,32 @@ const Secret = require("./secret.js");
 const login_data = require('data-store')({ path: process.cwd() + '/login/users/users.json' });
 
 app.post('/login', (req,res) => {
-
     let user = req.body.user;
     let password = req.body.password;
-
+    
     let user_data = login_data.get(user);
+    if(req.session.user == user){
+        console.log(user)
+        res.status(403).send("user already logged in")
+        return
+    }
     if (user_data == null) {
         res.status(404).send("Not found");
         return;
     }
     if (user_data.password == password) {
-        console.log("User " + user + " credentials valid");
+        //console.log("User " + user + " is now logged in!");
         req.session.user = user;
+        console.log(req.session.user)
         res.json(true);
         return;
     }
-    res.status(403).send("Unauthorized");
+    res.status(403).send("Username or Password Invalid");
 });
 
 app.get('/logout', (req, res) => {
     delete req.session.user;
+    console.log(req.session.user)
     res.json(true);
 })
 
