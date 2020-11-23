@@ -10,7 +10,7 @@ export const renderMainPage = function () {
                     <div class="column">
                     <section class="section">
                         <div class="container">
-                            <h2 class="title" style="text-align: left;"> Find a Study Spot </h2>
+                            <h2 class="title" style="text-align: center;"> Find a Study Spot </h2>
                         </div>
                         <br>
                         <div id="map"></div>
@@ -18,9 +18,9 @@ export const renderMainPage = function () {
                         </div>
                     </section>
                     <section class="section">
-                        <div class="container" justify-content= "center" align-content= "center" text-align="center" >
-                            <button class="button is-primary submit random" style="background-color: #7BAFD4"> Browse all Spots </button>
-                            <button class="button is-primary submit review" style="background-color: #7BAFD4"> Submit a Review </button>
+                        <div class="container" style="text-align: center;" >
+                            <button class="button is-primary is-large submit random" style="background-color: #7BAFD4"> Browse all Spots </button>
+                            <button class="button is-primary is-large submit review" style="background-color: #7BAFD4"> Submit a Review </button>
                         </div>
                     <section>
                     </div>
