@@ -26,10 +26,25 @@
                 <div class="column">
                     <button class="button search" type="submit" style="text-align: center; background-color: #DCDCDC;">&#128269</button><!--&#128269 Unicode is for magnifying glass-->
                 </div>
+
                 <!-- Need button functionality for login-->
                 <div class="column" align-content=right style="text-align:right; color: #DCDCDC">
-                    <button class="button login" color="black" style="background-color:  #DCDCDC;"
-                        type="submit">Login</button></div>
+                    <h1 class="logged-in title is-5" id="welcome-msg" style="display: none"></h1>
+                    <ul>
+                        <li class="logged-out" style="display: none">
+                            <button class="button login" color="black" style="background-color:  #DCDCDC;"
+                        type="submit">Login</button>
+                        </li>
+
+                        <li class="logged-in" style="display: none">
+                            <button class="button account" id ="account" color="black" style="background-color: #DCDCDC;">My Account</button>
+                            
+                            <button class="button logout" id="logout"color="black" style="background-color:  #DCDCDC;"
+                            type="submit">Logout</button>
+
+                        </li>
+                        
+                    </ul>
             </div>
 
             <ol id='list' hidden>
@@ -51,12 +66,81 @@
     </section>
     <div id="root"></div>
 
-
-
-
-
+    <!-- Modal popups for errors/account details -->
+    <div class="modal" id="myModal">
+        <div class="modal-content hero-body">
+            <span class="close">&times;</span>
+        <h1 class="title"> You need to login to submit a review </h1>
+        <button class="button is-primary is-large login"  style="background-color:  #7BAFD4;" type="submit">Login</button>
+        
+        </div>
+        </div>
 
     </div>
+
+    <div class="modal" id="errorModal">
+        <div class="modal-content hero-body">
+            <span class="close">&times;</span>
+        <h1 class="title" id="error-msg" style="color: hsl(348, 100%, 61%);"></h1>
+        </div>
+        </div>
+
+    </div>
+
+    <div id="accountModal" class="modal account-details">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2 id="acc-Name" style="color:white"></h2>
+          </div>
+          <div class="modal-body">
+            <p id="account-information"> </p>
+          </div>
+          <div class="modal-footer">
+            <button class="button is-primary edit-account"  style="background-color:  #7BAFD4;" type="submit">Edit</button>
+          </div>
+        </div>
+      
+      </div>
+    </div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyANBL9osDSHgbmjKp-hXqlMqmEyN6FSQ8g",
+    authDomain: "final-73666.firebaseapp.com",
+    databaseURL: "https://final-73666.firebaseio.com",
+    projectId: "final-73666",
+    storageBucket: "final-73666.appspot.com",
+    messagingSenderId: "840865846320",
+    appId: "1:840865846320:web:90a029435a7fa4ebd449f5",
+    measurementId: "G-LYDFG4K6PT"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  //make auth and firestore references
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  //update firestore settings
+  db.settings({timestampsInSnapshots: true});
+</script>
+
+
     <!-- Include links to JavaScript files below -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="node_modules/jquery/dist/jquery.js"></script>
@@ -64,8 +148,6 @@
     <script src="render.js" type="module"></script>
     <script src="data.json" type="module"></script>
     <script src="sData.js"></script>
-    <script src="secret.js" type="module"></script>
-    <script src="login.js" type="module"></script>
     <script src="db.js" type="module"></script>
     <script src="dataCreate.js" type="module"></script>
     <script src="autocomplete.js" type="module"></script>
