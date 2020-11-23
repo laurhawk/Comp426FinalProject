@@ -2,6 +2,8 @@
 //spots is a spot object from render.js
 //import data from "data.js"
 var functional_spots = [];
+var location_spots = [];
+
 export const renderMainPage = function () {
     const $root = $('#root');
 
@@ -154,10 +156,10 @@ export const individualSpot = function(){
         else { 
            //console.log(x[i].innerHTML)
            var listi = x[i].innerHTML.toLowerCase()
-           for(var i=0; i<spotData.length; i++){
+           for(var i=0; i<location_spots.length; i++){
                //console.log(spotData[i].name + "name at each index")
-                if(listi.includes(spotData[i].name.toLowerCase())){
-                    var temp = spotData[i]
+                if(listi.includes(location_spots[i].name.toLowerCase())){
+                    var temp = location_spots[i]
                     //console.log(temp)
                 }
         }
@@ -172,7 +174,7 @@ export const individualSpot = function(){
  
                  <img class = "card_img" src = ${temp.image}>
  
-                     <h2 class="individualcards"> Rating: ${temp.rating} <br> Would Study Again? ${temp.wouldStudy} </h2>
+                     <h2 class="individualcards"> Rating: ${avgRating(temp.rating)} <br> Would Study Again? ${getWouldStudyPercentages(temp.wouldStudy)} </h2>
                         <p class="is-small individualcards"> Comments: ${temp.comments} </p>
              </div>
              </div>`
@@ -187,12 +189,12 @@ export const individualSpot = function(){
 export const renderSpotCard = function(spot) {
     const $root = $('#root');
     //var davis;
-    $.getJSON( "../data/spotData.json", function( json ) {
-        //alert(JSON.stringify(json));
-        console.log( "JSON Data: " + JSON.stringify(json[1]) );
-        //davis = JSON.stringify(json[1])
-       });
-       //console.log(davis)
+    // $.getJSON( "../data/spotData.json", function( json ) {
+    //     //alert(JSON.stringify(json));
+    //     console.log( "JSON Data: " + JSON.stringify(json[1]) );
+    //     //davis = JSON.stringify(json[1])
+    //    });
+    //    //console.log(davis)
 
     
     var page = `<div id="${spot.id}">
@@ -205,7 +207,7 @@ export const renderSpotCard = function(spot) {
                  <img class = "card_img" src = ${spot.image}>
  
                      <h2 class="spotcards"> Rating: ${avgRating(spot.ratings)} <br> ${wouldStudyPercentages(spot.wouldStudy)}% would study again</h2>
-                        <p class="is-small spotcards"> Comments: ${spot.comments[0]} </p>
+                        <p class="is-small spotcards"> Comments: ${spot.comments} </p>
              </div>
              </div>`
 
@@ -218,9 +220,8 @@ export const renderSpotCard = function(spot) {
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
-    for(var i=0;i<spotData.length; i++){
-
-        $root.html(renderSpotCard(spotData[i]))
+    for(var i=0;i<location_spots.length; i++){
+        $root.html(renderSpotCard(location_spots[i]));
     }
 
 };
@@ -456,27 +457,21 @@ export const renderReviewForm = function () {
 export const handleSubmitReviewForm = function () {
     //event.preventDefault();
     //get values from selector classes/ textareas (handle autofill name separately)
-    let w_new = $(".selectWouldStudy").val();
-    let r_new = $(".selectRating").val();
+    let w_new = Boolean($(".selectWouldStudy").val());
+    let r_new = parseInt($(".selectRating").val());
     let c_new = $("#comments").val();
     let l = $(".selectLocation").val();
 
-    // let w_old;
-    // let c_old;
-    // let r_old;
-    // let spot_image;
-    // let spot_id;
-
-    var update_data = [];
+    //var update_data = [];
+    console.log(l + w_new);
     
-    spotData.forEach(spot => {
-        if(spot.name == l){
-            spot.comments.push(c_new);
-            spot.ratings.push(r_new);
-            spot.wouldStudy.push(w_new);
+    for (let i = 0; i < location_spots.length; i++){
+        if(location_spots[i].name == l){
+            location_spots[i].comments.push(c_new);
+            location_spots[i].ratings.push(r_new);
+            location_spots[i].wouldStudy.push(w_new);
         }
-        update_data.push(spot);
-    });
+    }
     // c_old[c_old.length] = c_new;
     // w_old[w_old.length] = w_new;
     // r_old[r_old.length] = r_new;
@@ -484,10 +479,10 @@ export const handleSubmitReviewForm = function () {
 
     //var newSpot = {"id": spot_id, "name": l, "wouldStudy": w_old, "ratings": r_old, "comments": c_old, "image": spot_image};
     
-    var fs = require('fs');
-    const filename = './sData.js';
-    //const file = require(filename);
-    const jsonString = JSON.stringify(newSpot);
+    // var fs = require('fs');
+    // const filename = './sData.js';
+    // //const file = require(filename);
+    // const jsonString = JSON.stringify(newSpot);
 
     // fs.readFile(filename, function(err, data) {
     //     if(err) throw err;
@@ -500,11 +495,10 @@ export const handleSubmitReviewForm = function () {
     //     });
     // });
 
-    fs.writeFile(filename, update_data.stringify, function(err){
-        if(err) console.log("ERROR!!" + err);
-        console.log("done");
-    });
-
+    // fs.writeFile(filename, update_data.stringify, function(err){
+    //     if(err) console.log("ERROR!!" + err);
+    //     console.log("done");
+    // });
 
 
 }
@@ -541,8 +535,20 @@ export const wouldStudyPercentages = function(wouldStudyArr){
     return Math.round((yes/wouldStudyArr.length)*100);
 }
 
+export const loadSpotsInitial = function(){
+    var executed = false;
+    if (!executed){
+        let i = 0;
+        spotData.forEach(spot =>{
+            location_spots[i] = spot;
+            i++;
+        });
+    }
+}
+
 $(function () {
     const $root = $('#root');  
+    loadSpotsInitial();
     renderMainPage();
     initMap();
     $root.on("click", ".random", loadSpotsIntoDOM)
