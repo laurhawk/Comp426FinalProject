@@ -1,8 +1,7 @@
 
 //spots is a spot object from render.js
 //import data from "data.js"
-var functional_spots = [];
-var location_spots = [];
+var location_spots;
 
 export const renderMainPage = function () {
     const $root = $('#root');
@@ -221,6 +220,7 @@ export const renderSpotCard = function(spot) {
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
     for(var i=0;i<location_spots.length; i++){
+        console.log(location_spots[i]);
         $root.html(renderSpotCard(location_spots[i]));
     }
 
@@ -466,7 +466,7 @@ export const handleSubmitReviewForm = function () {
     console.log(l + w_new);
     
     for (let i = 0; i < location_spots.length; i++){
-        if(location_spots[i].name == l){
+        if(location_spots[i].name.toString() == l.toString()){
             location_spots[i].comments.push(c_new);
             location_spots[i].ratings.push(r_new);
             location_spots[i].wouldStudy.push(w_new);
@@ -535,20 +535,24 @@ export const wouldStudyPercentages = function(wouldStudyArr){
     return Math.round((yes/wouldStudyArr.length)*100);
 }
 
+
 export const loadSpotsInitial = function(){
+    var s = new Array(spotData.length);
     var executed = false;
     if (!executed){
+        executed = true;
         let i = 0;
         spotData.forEach(spot =>{
-            location_spots[i] = spot;
+            s[i] = spot;
             i++;
         });
     }
+    return s;
 }
 
 $(function () {
     const $root = $('#root');  
-    loadSpotsInitial();
+    location_spots = loadSpotsInitial();
     renderMainPage();
     initMap();
     $root.on("click", ".random", loadSpotsIntoDOM)

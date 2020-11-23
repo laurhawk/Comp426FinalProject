@@ -91,7 +91,7 @@ const spotData = [{
   "name": "Kenan Science Library",
   "wouldStudy": [true],
   "ratings": [4],
-  "comments": "Great, quiet place!",
+  "comments": ["Great, quiet place!"],
   "image": "../images/kenan.jpg"
 },
 {
@@ -99,7 +99,7 @@ const spotData = [{
   "name": "Wilson Library",
   "wouldStudy": [true],
   "ratings": [3.5],
-  "comments": "Too quiet",
+  "comments": ["Too quiet"],
   "image": "../images/wilson.jpg"
 },
 {
