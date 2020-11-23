@@ -42,6 +42,11 @@ $(document).on("click", ".login", renderLoginForm);
 $(document).on("click", ".search", individualSpot)
 //whenever you click search button, needs to root.html a function that returns a new page with 
 //the spot data you searched as the parameter
+
+$(document).on("click", ".account", renderAccountDetails);
+$(document).on("click", ".edit-account", renderAccountEditForm);
+//whenever you click on "Account" button when you log in you are give
+//your account details and ability to modify them
 }
 
 // Initialize and add the map
@@ -266,27 +271,30 @@ export const renderRandomStudySpot = function(spot){
                 */
 
 export const renderLoginForm = function () {
+    let modal = document.getElementById("myModal")
+    modal.style.display = "none"
+
     const $root = $('#root');
-    let form_html = `<form class = "loginForm">
-                <div class="section columns">
+    let form_html = `<form class = "loginForm" id = "login-form">
+    <div class="section columns">
 
-                <div class="column">
-                <div class="field>
-                    <label class = "label">Username</label>
-                    <input class = "input is-right " type = "text" placeholder = "Username"></input>
-                </div>
-                    
-                <div class="field>
-                    <label class = "label">Password</label>
-                    <input class = "input" type = "password" placeholder = "Password"></input>
-                </div>           
-                <br>     
-                <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
-                </div>
+    <div class="column">
+    <div class="field>
+        <label class = "label">Email</label>
+        <input class = "input is-right " type = "text" id="user-login" placeholder = "Email"></input>
+    </div>
+        
+    <div class="field>
+        <label class = "label">Password</label>
+        <input class = "input" type = "password" id="login-password" placeholder = "Password"></input>
+    </div>           
+    <br>     
+    <button class = "button is-primary submitlogin" style="background-color: #7BAFD4">Login</button>
+    </div>
 
-                <div class="column">
-                <button class = "button is-primary newlogin" id="create" style="background-color: #7BAFD4">Create New Account</button>
-                </div></div></form>
+    <div class="column">
+    <button class = "button is-primary newlogin" id="create" style="background-color: #7BAFD4">Create New Account</button>
+    </div></div></form>
   `;
 
     //there are some login button issues, the .login class doesnt refer to the render create new user button
@@ -301,37 +309,37 @@ export const renderLoginForm = function () {
 
 export const renderCreateNewUser = function () {
     const $root = $('#root');
-    let newUser = `<form class="createUser">
-                    <div class="section">
-                    
-                    <div class= "field">
-                        <label class = "label">First Name</label>
-                        <input class = "input" type = "text" placeholder = "First Name"></input>
-                    </div>
-                    <div class= "field">
-                        <label class = "label">Last Name</label>
-                        <input class = "input" type = "text" placeholder = "Last Name"></input>
-                    </div>
-                    <div class= "field">
-                        <label class = "label">Email</label>
-                        <input class = "input" type = "email" placeholder = "email@cs.unc.edu"></input>
-                    </div>
-                    <div class= "field">
-                        <label class = "label">Create Username</label>
-                        <input class = "input" type = "text" placeholder = "Username"></input>
-                    </div>
-                    <div class= "field">
-                        <label class = "label">Create Password</label>
-                        <input class = "input" type = "password" placeholder = "Password"></input>
-                    </div>
-                    <div class= "field">
-                        <label class = "label">Confirm Password</label>
-                        <input class = "input" type = "password" placeholder = "Password"></input>
-                    </div>
-                    <br>
-                    <button class="button is-primary submit create" style="background-color: #7BAFD4"> Create Account </button>
-                    </div>
-                    </form>`
+    let newUser = `<form class="createUser" id="signup-form">
+    <div class="section">
+    
+    <div class= "field">
+        <label class = "label">First Name</label>
+        <input class = "input" id="fName"type = "text" placeholder = "First Name"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Last Name</label>
+        <input class = "input" id="lName" type = "text" placeholder = "Last Name"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Email*</label>
+        <input class = "input" id="signup-email" type = "email" placeholder = "email@cs.unc.edu"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Create Username</label>
+        <input class = "input" id="username" type = "text" placeholder = "Username"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Create Password*</label>
+        <input class = "input" id="password" type = "password" placeholder = "Password"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Confirm Password*</label>
+        <input class = "input" id="cPassword" type = "password" placeholder = "Password"></input>
+    </div>
+    <br>
+    <button class="button is-primary submit create" style="background-color: #7BAFD4" id="create-account"> Create Account </button>
+    </div>
+    </form>`
 
     //check that the two created passwords match
 
@@ -339,20 +347,259 @@ export const renderCreateNewUser = function () {
     $(document).on("click", ".create", submitUserToDb);
 }
 
+//helper functions for submiting users to userdb and checking if current
+//user is logged in or not
+const loggedOutLinks = document.querySelectorAll('.logged-out');
+const loggedInLinks = document.querySelectorAll('.logged-in');
+
+//toggle UI elements
+const setupUI = (user) => {
+    if(user !== null){
+        loggedInLinks.forEach(item => item.style.display = 'block');
+        loggedOutLinks.forEach(item => item.style.display = 'none')
+    } else{
+        loggedInLinks.forEach(item => item.style.display = 'none');
+        loggedOutLinks.forEach(item => item.style.display = 'block')
+    }
+}
+//listen for auth status changes
+auth.onAuthStateChanged(user => {
+    if(user !== null){
+        db.collection('users').doc(user.uid).get().then(doc => {
+        document.getElementById('welcome-msg').innerHTML = "Welcome " + doc.data().FirstName + "!";
+        })
+        console.log('user logged in ' + user);
+        setupUI(user);
+        
+    } else {
+        console.log('user logged out');
+        setupUI(user);
+    }
+})
+
+export const creationError = function(error){
+    let modal = document.getElementById("errorModal");
+    let span = document.getElementsByClassName("close")[0];
+    
+    document.getElementById("error-msg").innerHTML= "ERROR:" + error;
+    modal.style.display = "block";
+
+    span.onclick = function() {
+            modal.style.display = "none"
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+//end of helper functions
+
 export const submitUserToDb = function () {
-    return;
     /*
     Upon submission of create new user form, this function should append the information given by the user
     in the above function to the user login database (and check if the username is available etc)
     */
+    //get user info
+    event.preventDefault()
+    const signupForm = document.querySelector('#signup-form');
+    const email = signupForm['signup-email'].value;
+    const password = signupForm['password'].value;
+
+    //check if passwords match
+    if(password !== signupForm['cPassword'].value){
+        creationError("Passwords do not match, try again")
+        return
+    }
+    
+    //sign up user
+    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+        return db.collection('users').doc(cred.user.uid).set({
+            FirstName: signupForm['fName'].value,
+            LastName: signupForm['lName'].value,
+            Username: signupForm['username'].value,
+            Bio: '',
+            FaveSpot: ''
+
+        })
+       
+    }).then(() => {
+        signupForm.reset();
+        $(signupForm).replaceWith(renderMainPage(), initMap());
+    }).catch(err => {
+    
+    let modal = document.getElementById("errorModal");
+    let span = document.getElementsByClassName("close")[0];
+    
+    document.getElementById("error-msg").innerHTML= err;
+    modal.style.display = "block";
+
+    span.onclick = function() {
+            modal.style.display = "none"
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    })
+    return;
 }
 
+//logout method
+const logout = document.querySelector('#logout');
+logout.addEventListener('click', (e) => {
+    auth.signOut();
+    
+})
+
 export const login = function () {
-    return;
     /*
     Handle Login event
     */
+   event.preventDefault();
+   const loginForm = document.querySelector('#login-form');
+   const email = loginForm['user-login'].value;
+   const password = loginForm['login-password'].value;
+
+
+       auth.signInWithEmailAndPassword(email, password).then(cred => {
+           $(loginForm).replaceWith(renderMainPage(), initMap());
+           loginForm.reset();
+       }).catch(err => {
+        let modal = document.getElementById("errorModal");
+        let span = document.getElementsByClassName("close")[0];
+        
+        document.getElementById("error-msg").innerHTML= err;
+        modal.style.display = "block";
+    
+        span.onclick = function() {
+                modal.style.display = "none"
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+       })
+
+  
+    return;
 }
+
+export const renderAccountDetails = function (event){
+    event.preventDefault();
+    const $root = $('#root');
+    auth.onAuthStateChanged(user => {
+        let modal = document.getElementById("accountModal");
+        let span = document.getElementsByClassName("close")[0];
+       
+         db.collection('users').doc(user.uid).get().then(doc => {
+            
+            let userInfo = `Name: ${doc.data().FirstName} ${doc.data().LastName}
+             <br>
+             Bio: ${doc.data().Bio}
+             <br>
+             Favorite Study Spot: ${doc.data().FaveSpot}`
+        document.getElementById('account-information').innerHTML = userInfo;
+        document.getElementById('acc-Name').innerHTML = user.email;
+        })
+
+        modal.style.display = "block";
+    
+        span.onclick = function() {
+                modal.style.display = "none"
+        }
+    
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    })
+
+}
+
+export const renderAccountEditForm = function() {
+    auth.onAuthStateChanged(user => {
+        db.collection('users').doc(user.uid).get().then(doc => {
+    document.getElementById("accountModal").style.display = "none";
+    const $root = $('#root');
+
+    let editForm =  `<form class="createUser" id="update-form">
+    <div class="section">
+    
+    <div class= "field">
+        <label class = "label">First Name</label>
+        <input class = "input" id="fName"type = "text" placeholder = "First Name" value="${doc.data().FirstName}"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Last Name</label>
+        <input class = "input" id="lName" type = "text" placeholder = "Last Name" value="${doc.data().LastName}"></input>
+    </div>
+    
+    <div class= "field">
+        <label class = "label">Username</label>
+        <input class = "input" id="username" type = "text" placeholder = "Username" value="${doc.data().Username}"></input>
+    </div>
+    <div class= "field">
+        <label class = "label">Bio</label>
+        <textarea class="textarea" id="bio" placeholder="write something about yourself">${doc.data().Bio}</textarea>
+
+    </div>
+    <div class= "field">
+        <label class = "label">Favorite Study Spot</label>
+        <div class="control" id="faveSpot">
+                                <div class="select is-rounded">
+                                    <select name = "Select location:" id="selectSpot">
+                                        <option value = "Davis Library">Davis Library</option>
+                                        <option value = "Undergraduate Library">Undergraduate Library</option>
+                                        <option value = "The Quad">The Quad</option>
+                                        <option value = "The Pit">The Pit</option>
+                                        <option value = "Bottom of Lenoir">Bottom of Lenoir</option>
+                                        <option value = "Genome Sciences Cafe">Genome Sciences Cafe</option>
+                                        <option value = "Sitterson Lobby">Sitterson Lobby</option>
+                                        <option value = "Sloane Art Library">Sloane Art Library</option>
+                                        <option value = "Phillips Hall">Phillips Hall</option>
+                                        <option value = "TOPO">TOPO</option>
+                                        <option value = "Starbucks on Franklin">Starbucks on Franklin</option>
+                                        <option value = "Kenan Science Library">Kenan Science Library</option>
+                                        <option value = "Wilson Library">Wilson Library</option>
+                                        <option value = "Student Union">Student Union</option>
+                                    </select> 
+                                </div>
+                        </div>
+    </div>
+    <br>
+    <button class="button is-primary submit update" style="background-color: #7BAFD4" id="update-account"> Update </button>
+    </div>
+    </form>`
+    $root.html(editForm);
+    $(document).on("click", ".update", handleUpdate);
+        })
+    })
+}
+
+export const handleUpdate = function(){
+    auth.onAuthStateChanged(user => {
+        const updateForm = document.querySelector('#update-form');
+        console.log(document.getElementById("selectSpot").value)
+       db.collection("users").doc(user.uid).set({
+        FirstName:updateForm['fName'].value,
+        LastName: updateForm['lName'].value,
+        Username: updateForm['username'].value,
+        Bio: document.getElementById("bio").value,
+        FaveSpot: document.getElementById("selectSpot").value
+       })
+
+    })
+    
+}
+
+
 export const renderReviewForm = function () {
     //replace X with Y function to replace main page with review form
     //create form 
@@ -362,6 +609,25 @@ export const renderReviewForm = function () {
 
     //need to check if already in database
     //want to autofill location name
+
+    //added so error occurs when non-logged in user presses review button
+    auth.onAuthStateChanged(user => {
+        const $root = $('#root');
+        if(user == null){
+            let modal = document.getElementById("myModal")
+            let span = document.getElementsByClassName("close")[0];
+            modal.style.display = "block";
+            span.onclick = function() {
+                modal.style.display = "none"
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                  modal.style.display = "none";
+                }
+              }
+
+            
+        } else {
     const $root = $('#root');
     let reviewForm = `<div class="section container"> 
                         <form id = "reviewSpotForm">
@@ -431,6 +697,8 @@ export const renderReviewForm = function () {
 </form> </div>
 `;
     $root.html(reviewForm);
+        }
+    })
     
     
 
