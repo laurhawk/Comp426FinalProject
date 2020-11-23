@@ -178,7 +178,7 @@ export const individualSpot = function(){
  
                  <img class = "card_img" src = ${temp.image}>
  
-                     <h2 class="individualcards"> Rating: ${avgRating(temp.rating)} <br> Would Study Again? ${getWouldStudyPercentages(temp.wouldStudy)} </h2>
+                     <h2 class="individualcards"> Rating: ${temp.rating} <br> Would Study Again? ${temp.wouldStudy} </h2>
                         <p class="is-small individualcards"> Comments: ${temp.comments} </p>
              </div>
              </div>`
