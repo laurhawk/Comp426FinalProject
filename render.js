@@ -164,7 +164,6 @@ export const individualSpot = function(){
                //console.log(spotData[i].name + "name at each index")
                 if(listi.includes(location_spots[i].name.toLowerCase())){
                     var temp = location_spots[i]
-                    //console.log(temp)
                 }
         }
 
@@ -178,7 +177,7 @@ export const individualSpot = function(){
  
                  <img class = "card_img" src = ${temp.image}>
  
-                     <h2 class="individualcards"> Rating: ${temp.rating} <br> Would Study Again? ${temp.wouldStudy} </h2>
+                     <h2 class="individualcards"> Rating: ${avgRating(temp.ratings)} <br> Would Study Again? ${wouldStudyPercentages(temp.wouldStudy)}%</h2>
                         <p class="is-small individualcards"> Comments: ${temp.comments} </p>
              </div>
              </div>`
@@ -210,7 +209,7 @@ export const renderSpotCard = function(spot) {
  
                  <img class = "card_img" src = ${spot.image}>
  
-                     <h2 class="spotcards"> Rating: ${avgRating(spot.ratings)} <br> ${wouldStudyPercentages(spot.wouldStudy)}% would study again</h2>
+                     <h2 class="spotcards"> Rating: ${avgRating(spot.ratings)} <br> ${wouldStudyPercentages(spot.wouldStudy)}% Would Study Again</h2>
                         <p class="is-small spotcards"> Comments: ${spot.comments} </p>
              </div>
              </div>`
@@ -261,14 +260,6 @@ export const renderRandomStudySpot = function(spot){
     $root.append(studySpot)
 }
 
-//end a04/a05 functions to be completed
-/*
-<div class= "section container columns">
-                        <div class="column">
-                        <div class = "field"></div>
-                        <div class = "control has-icons-left has-icons-right">
-                        <div class = "control has-icons-left has-icons-right">
-                */
 
 export const renderLoginForm = function () {
     let modal = document.getElementById("myModal")
