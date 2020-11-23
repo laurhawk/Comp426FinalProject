@@ -461,37 +461,51 @@ export const handleSubmitReviewForm = function () {
     let c_new = $("#comments").val();
     let l = $(".selectLocation").val();
 
-    let w_old;
-    let c_old;
-    let r_old;
-    let spot_image;
-    let spot_id;
+    // let w_old;
+    // let c_old;
+    // let r_old;
+    // let spot_image;
+    // let spot_id;
+
+    var update_data = [];
     
     spotData.forEach(spot => {
         if(spot.name == l){
-            spot_image = spot.image;
-            spot_id = spot.id;
-            c_old = spot.comments;
-            r_old = spot.ratings;
-            w_old = spot.wouldStudy;
+            spot.comments.push(c_new);
+            spot.ratings.push(r_new);
+            spot.wouldStudy.push(w_new);
         }
+        update_data.push(spot);
     });
-    c_old.append(c_new);
-    w_old.append(w_new);
-    r_old.append(r_new);
+    // c_old[c_old.length] = c_new;
+    // w_old[w_old.length] = w_new;
+    // r_old[r_old.length] = r_new;
 
 
-    var newSpot = {"id": spot_id, "name": l, "wouldStudy": w_old, "ratings": r_old, "comments": c_old, "image": spot_image};
+    //var newSpot = {"id": spot_id, "name": l, "wouldStudy": w_old, "ratings": r_old, "comments": c_old, "image": spot_image};
     
-    const express = require('express');
+    var fs = require('fs');
     const filename = './sData.js';
-    const file = require(filename);
+    //const file = require(filename);
+    const jsonString = JSON.stringify(newSpot);
 
-    express.write(filename, JSON.stringify(file), function writeJSON(err){
-        if (err) return console.log("ERROR WRITE" + err);
-        console.log(JSON.stringify(file, null, 6));
-        console.log('writing to' + filename);
-    })
+    // fs.readFile(filename, function(err, data) {
+    //     if(err) throw err;
+    //     if(data.id == jsonString.id){
+    //         data.toString();
+    //         data.replace(data, jsonString);
+    //     }
+    //     fs.writeFile(filename, data, function(err) {
+    //         err || console.log('Data replaced \n', data);
+    //     });
+    // });
+
+    fs.writeFile(filename, update_data.stringify, function(err){
+        if(err) console.log("ERROR!!" + err);
+        console.log("done");
+    });
+
+
 
 }
 
