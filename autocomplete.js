@@ -22,18 +22,7 @@ function autocomplete(inp, arr) {
           }
         }
     });
-    function addActive(x) {
-      if (!x) return false;
-      removeActive(x);
-      if (currentFocus >= x.length) currentFocus = 0;
-      if (currentFocus < 0) currentFocus = (x.length - 1);
-      x[currentFocus].classList.add("autocomplete-active");
-    }
-    function removeActive(x) {
-      for (var i = 0; i < x.length; i++) {
-        x[i].classList.remove("autocomplete-active");
-      }
-    }
+
     function closeAllLists(elmnt) {
       var x = document.getElementsByClassName("autocomplete-items");
       for (var i = 0; i < x.length; i++) {
