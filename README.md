@@ -27,5 +27,5 @@ Our target user is UNC students (undergraduate and graduation), but we hope that
 - Bulma (CSS)
 
 ### Glimpse of Interface
-![Signed Homepage](*/images/siteloggedin.png)
+![Signed Homepage](Comp426FinalProject/images/siteloggedin.png?raw=true "Logged In")
 
