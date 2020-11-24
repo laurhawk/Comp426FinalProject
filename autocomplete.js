@@ -38,7 +38,7 @@ function autocomplete(inp, arr) {
         y.innerHTML += arr[z];
         y.innerHTML += "<input type='hidden' value='" + arr[z] + "'>";
 
-        y.addEventListener("click", function (e) {
+        y.addEventListener("click", function (clicker) {
           inp.value = this.getElementsByTagName("input")[0].value;
           closeAllLists();
         });
