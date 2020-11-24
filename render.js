@@ -804,7 +804,7 @@ export const loadSpots = function(){
 }
 
 export const randomComment = function(comments){
-    return comments[Math.floor(Math.random(comments.length))];
+    return comments[Math.floor(Math.random()*comments.length)];
 }
 
 
