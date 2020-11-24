@@ -1,11 +1,9 @@
 
 //spots is a spot object from render.js
 //import data from "data.js"
-var location_spots;
-
 export const renderMainPage = function () {
     const $root = $('#root');
-
+    
     let mainPage = `<div class="columns">
                     <div class="column">
                     <section class="section">
@@ -144,6 +142,14 @@ export function initMap() {
 
 //functions below this mimic a04; need to take data from data files and turn that data into individual pages
 export const individualSpot = function(){
+    db.collection('spots').get().then(snapshot => {
+        let data = snapshot.docs;
+        data.forEach(doc => {
+        const spots = doc.data()
+        location_spots.push(spots);
+        } );
+    });
+
     const $root = $('#root');
     let input = document.getElementById('theInput').value
     //console.log(input)
@@ -178,7 +184,7 @@ export const individualSpot = function(){
                  <img class = "card_img" src = ${temp.image}>
  
                      <h2 class="individualcards"> Rating: ${avgRating(temp.ratings)} <br> Would Study Again? ${wouldStudyPercentages(temp.wouldStudy)}%</h2>
-                        <p class="is-small individualcards"> Comments: ${temp.comments} </p>
+                        <p class="is-small individualcards"> Featured comment: ${randomComment(temp.comments)} </p>
              </div>
              </div>`
             $root.html(item)
@@ -210,7 +216,7 @@ export const renderSpotCard = function(spot) {
                  <img class = "card_img" src = ${spot.image}>
  
                      <h2 class="spotcards"> Rating: ${avgRating(spot.ratings)} <br> ${wouldStudyPercentages(spot.wouldStudy)}% Would Study Again</h2>
-                        <p class="is-small spotcards"> Comments: ${spot.comments} </p>
+                        <p class="is-small spotcards"> Featured comment: ${randomComment(spot.comments)} </p>
              </div>
              </div>`
 
@@ -223,6 +229,13 @@ export const renderSpotCard = function(spot) {
 
     // TODO: Generate the heroes using renderHeroCard()
     // TODO: Append the hero cards to the $root element
+    db.collection('spots').get().then(snapshot => {
+        let data = snapshot.docs;
+        data.forEach(doc => {
+        const spots = doc.data()
+        location_spots.push(spots);
+        } );
+    });
     for(var i=0;i<location_spots.length; i++){
         console.log(location_spots[i]);
         $root.html(renderSpotCard(location_spots[i]));
@@ -720,44 +733,25 @@ export const handleSubmitReviewForm = function () {
     let r_new = parseInt($(".selectRating").val());
     let c_new = $("#comments").val();
     let l = $(".selectLocation").val();
-
-    //var update_data = [];
-    console.log(l + w_new);
+    let c, r, w;
     
     for (let i = 0; i < location_spots.length; i++){
         if(location_spots[i].name.toString() == l.toString()){
-            location_spots[i].comments.push(c_new);
-            location_spots[i].ratings.push(r_new);
-            location_spots[i].wouldStudy.push(w_new);
+            c = location_spots[i].comments;
+            r = location_spots[i].ratings;
+            w = location_spots[i].wouldStudy;
         }
     }
-    // c_old[c_old.length] = c_new;
-    // w_old[w_old.length] = w_new;
-    // r_old[r_old.length] = r_new;
-
-
-    //var newSpot = {"id": spot_id, "name": l, "wouldStudy": w_old, "ratings": r_old, "comments": c_old, "image": spot_image};
+  
+    c.append(c_new);
+    r.append(r_new);
+    w.append(w_new);
     
-    // var fs = require('fs');
-    // const filename = './sData.js';
-    // //const file = require(filename);
-    // const jsonString = JSON.stringify(newSpot);
-
-    // fs.readFile(filename, function(err, data) {
-    //     if(err) throw err;
-    //     if(data.id == jsonString.id){
-    //         data.toString();
-    //         data.replace(data, jsonString);
-    //     }
-    //     fs.writeFile(filename, data, function(err) {
-    //         err || console.log('Data replaced \n', data);
-    //     });
-    // });
-
-    // fs.writeFile(filename, update_data.stringify, function(err){
-    //     if(err) console.log("ERROR!!" + err);
-    //     console.log("done");
-    // });
+   db.collection("spots").where(name, "==", l).update({
+        wouldStudy: w,
+        ratings: r,
+        comments: c
+    });
 
 
 }
@@ -794,24 +788,30 @@ export const wouldStudyPercentages = function(wouldStudyArr){
     return Math.round((yes/wouldStudyArr.length)*100);
 }
 
-
-export const loadSpotsInitial = function(){
-    var s = new Array(spotData.length);
-    var executed = false;
-    if (!executed){
-        executed = true;
-        let i = 0;
-        spotData.forEach(spot =>{
-            s[i] = spot;
-            i++;
-        });
-    }
-    return s;
+export const getSpots = async () => {
+    let result = [];
+    const snapshot = await db.collection('spots').get();
+    snapshot.forEach((doc) => result.push(doc.data()));
+    return result;
 }
+var location_spots = new Array(spotData.length);
+export const loadSpots = function(){
+    let i = 0;
+    spotData.forEach(spot => {
+        location_spots[i] = spot;
+        i++;
+    });
+}
+
+export const randomComment = function(comments){
+    return comments[Math.floor(Math.random(comments.length))];
+}
+
+
 
 $(function () {
     const $root = $('#root');  
-    location_spots = loadSpotsInitial();
+    loadSpots();
     renderMainPage();
     initMap();
     $root.on("click", ".random", loadSpotsIntoDOM)
